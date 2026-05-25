@@ -521,4 +521,42 @@ document.addEventListener('DOMContentLoaded', () => {
       p.appendChild(document.createTextNode(str));
       return p.innerHTML;
     }
+
+    // --- Petal Animation Logic (Upgraded) --- //
+    const petalContainer = document.getElementById('petal-container');
+    if (petalContainer) {
+        const petalColors = ['#FFDAB9', '#FFB6C1', '#F8C8DC', '#FFFFFF']; // Peach, LightPink, Pastel Pink, White
+        const animations = ['fall-1', 'fall-2', 'fall-3'];
+
+        const createPetal = () => {
+            const petal = document.createElement('div');
+            petal.className = 'petal';
+
+            const anim = animations[Math.floor(Math.random() * animations.length)];
+            const duration = Math.random() * 8 + 7; // 7 to 15 seconds
+            const delay = Math.random() * 5;
+
+            petal.style.left = `${Math.random() * 100}vw`;
+            petal.style.backgroundColor = petalColors[Math.floor(Math.random() * petalColors.length)];
+            
+            // Vary size and initial rotation
+            const scale = Math.random() * 0.6 + 0.4; // scale between 0.4 and 1.0
+            const initialRotation = Math.random() * 360;
+            petal.style.transform = `scale(${scale}) rotate(${initialRotation}deg)`;
+            
+            petal.style.animationName = anim;
+            petal.style.animationDuration = `${duration}s`;
+            petal.style.animationDelay = `${delay}s`;
+
+            petalContainer.appendChild(petal);
+
+            // Remove the petal from the DOM after it has fallen
+            setTimeout(() => {
+                petal.remove();
+            }, (duration + delay) * 1000);
+        };
+
+        // Create a continuous stream of petals
+        setInterval(createPetal, 700); // Add a new petal every 700ms
+    }
 });

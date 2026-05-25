@@ -27,8 +27,16 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const destination = '서초과학화예비군훈련장 강동송파';
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        
         if (isMobile) {
-            window.open(`https://kakaonavi-wguide.kakao.com/navigate.html?name=${encodeURIComponent(destination)}&x=127.06733&y=37.44754`);
+            if (window.Kakao && Kakao.isInitialized()) {
+                Kakao.Navi.start({
+                    name: destination,
+                    x: 127.06733,
+                    y: 37.44754,
+                    coordType: 'wgs84'
+                });
+            }
         } else {
             window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destination)},37.44754,127.06733`);
         }

@@ -2,6 +2,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- Firebase Init ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfs_7ngMzczZqZmvrl7XWTR6LDOjYrtTw",
+      authDomain: "wooltra35-20925108-6ae65.firebaseapp.com",
+      projectId: "wooltra35-20925108-6ae65",
+      storageBucket: "wooltra35-20925108-6ae65.firebasestorage.app",
+      messagingSenderId: "983704910868",
+      appId: "1:983704910868:web:c33bfd76dc02dbc7d33b01"
+    };
+    if (firebase.apps.length === 0) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const db = firebase.firestore();
 
     // --- Kakao SDK Init --- //
@@ -9,68 +20,280 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- RSVP Modal Logic --- //
-    const rsvpModal = document.getElementById('rsvp-modal');
-    const openRsvpBtn = document.getElementById('open-rsvp-modal-btn');
-    const closeBtn = rsvpModal.querySelector('.close-btn');
-    const rsvpForm = document.getElementById('rsvp-form');
-    const mealFieldset = document.getElementById('meal-fieldset');
+    // --- Gallery Logic --- //
+    const carousel = document.querySelector('.gallery-carousel');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    const images = document.querySelectorAll('.gallery-carousel img');
+    let currentIndex = 0;
+    let touchStartX = 0;
+    let touchEndX = 0;
 
-    if (openRsvpBtn) {
-        openRsvpBtn.onclick = () => rsvpModal.style.display = 'block';
+    function updateCarousel() {
+        if (!carousel) return;
+        const width = carousel.clientWidth;
+        carousel.style.transform = `translateX(${-width * currentIndex}px)`;
     }
-    if (closeBtn) {
-        closeBtn.onclick = () => rsvpModal.style.display = 'none';
-    }
-    window.onclick = (event) => {
-        if (event.target == rsvpModal) {
-            rsvpModal.style.display = 'none';
-        }
-    };
 
-    // Hide meal option if not attending
-    rsvpForm.elements['attendance'].forEach(radio => {
-        radio.onchange = (e) => {
-            if (e.target.value === 'absent') {
-                mealFieldset.style.display = 'none';
-            } else {
-                mealFieldset.style.display = 'block';
-            }
-        };
-    });
+    if(nextBtn && prevBtn) {
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateCarousel();
+        });
 
-    if (rsvpForm) {
-        rsvpForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const contact = rsvpForm.querySelector('#rsvp-contact').value.replace(/\D/g, '');
-            if (!contact || contact.length < 10) {
-                alert('올바른 연락처를 입력해주세요.');
-                return;
-            }
-
-            const formData = {
-                name: rsvpForm.querySelector('#rsvp-name').value,
-                side: rsvpForm.elements['side'].value,
-                attendance: rsvpForm.elements['attendance'].value,
-                meal: rsvpForm.elements['attendance'].value === 'attending' ? rsvpForm.elements['meal'].value : 'N/A',
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            };
-
-            db.collection('rsvps').doc(contact).set(formData, { merge: true })
-                .then(() => {
-                    alert('참석 의사를 전달해주셔서 감사합니다.');
-                    rsvpModal.style.display = 'none';
-                    rsvpForm.reset();
-                    mealFieldset.style.display = 'block';
-                })
-                .catch(error => {
-                    console.error("Error writing document: ", error);
-                    alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
-                });
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateCarousel();
         });
     }
 
-    // --- Guestbook Logic --- //
+    if (carousel) {
+        carousel.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+    }
+
+    function handleSwipe() {
+        if (touchEndX < touchStartX) { // Swiped left
+            nextBtn.click();
+        }
+        if (touchEndX > touchStartX) { // Swiped right
+            prevBtn.click();
+        }
+    }
+    
+    window.addEventListener('resize', updateCarousel);
+    if(images.length > 0) updateCarousel();
+
+
+    // --- Calendar & D-Day --- //
+    function createCalendar(year, month) {
+        const calendarDiv = document.querySelector('.calendar');
+        if (!calendarDiv) return;
+
+        const date = new Date(year, month - 1, 1);
+        const lastDate = new Date(year, month, 0).getDate();
+        const startDay = date.getDay();
+
+        let calendarHTML = '<table><thead><tr><th>일</th><th>월</th><th>화</th><th>수</th><th>목</th><th>금</th><th>토</th></tr></thead><tbody><tr>';
+
+        let dayCount = 1;
+        for (let i = 0; i < 42; i++) {
+            if (i >= startDay && dayCount <= lastDate) {
+                if (dayCount === 30) {
+                     calendarHTML += `<td class="wedding-day"><span>${dayCount}</span></td>`;
+                } else {
+                     calendarHTML += `<td>${dayCount}</td>`;
+                }
+                dayCount++;
+            } else {
+                calendarHTML += '<td></td>';
+            }
+            if (i % 7 === 6) {
+                calendarHTML += '</tr><tr>';
+            }
+        }
+        calendarHTML += '</tbody></table>';
+        calendarDiv.innerHTML = calendarHTML;
+    }
+
+    function calculateDday() {
+        const dDayDiv = document.querySelector('.d-day');
+        if (!dDayDiv) return;
+        
+        const weddingDate = new Date('2026-08-30').getTime();
+        const today = new Date().getTime();
+        const diff = weddingDate - today;
+        const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        if (daysLeft > 0) {
+            dDayDiv.textContent = `상모와 유나의 결혼식이 ${daysLeft}일 남았습니다.`;
+        } else if (daysLeft === 0) {
+            dDayDiv.textContent = '상모와 유나의 결혼식, 바로 오늘입니다!';
+        } else {
+            dDayDiv.textContent = `상모와 유나의 결혼식이 ${-daysLeft}일 지났습니다.`;
+        }
+    }
+    createCalendar(2026, 8);
+    calculateDday();
+    
+
+    // --- Accordion Logic --- //
+    const accordions = document.querySelectorAll('.accordion-header');
+    accordions.forEach(accordion => {
+        accordion.addEventListener('click', () => {
+            const panel = accordion.nextElementSibling;
+            const icon = accordion.querySelector('.accordion-icon');
+            
+            // Close other accordions
+            accordions.forEach(otherAccordion => {
+                if (otherAccordion !== accordion) {
+                    const otherPanel = otherAccordion.nextElementSibling;
+                    const otherIcon = otherAccordion.querySelector('.accordion-icon');
+                    otherPanel.style.maxHeight = null;
+                    if(otherIcon) otherIcon.textContent = '+';
+                    otherAccordion.classList.remove('active');
+                }
+            });
+
+            // Toggle current accordion
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+                if(icon) icon.textContent = '+';
+                accordion.classList.remove('active');
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+                if(icon) icon.textContent = '−';
+                accordion.classList.add('active');
+            }
+        });
+    });
+
+    // --- Copy to Clipboard --- //
+    document.body.addEventListener('click', function(e) {
+        if (e.target.classList.contains('copy-btn')) {
+            const account = e.target.dataset.account;
+            navigator.clipboard.writeText(account).then(() => {
+                alert('계좌번호가 복사되었습니다.');
+            }).catch(err => {
+                alert('복사에 실패했습니다.');
+            });
+        }
+    });
+
+    // --- Kakao Map Logic --- //
+    const mapContainer = document.getElementById('map');
+    if (mapContainer && window.kakao && window.kakao.maps) {
+        const mapOption = {
+            center: new kakao.maps.LatLng(37.4474, 127.0543), // 보넬리가든 위치
+            level: 4
+        };
+        const map = new kakao.maps.Map(mapContainer, mapOption);
+        const markerPosition = new kakao.maps.LatLng(37.4474, 127.0543);
+        const marker = new kakao.maps.Marker({
+            position: markerPosition
+        });
+        marker.setMap(map);
+        
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if(isMobile) {
+            mapContainer.addEventListener('click', function() {
+                 window.location.href = 'https://map.kakao.com/link/to/보넬리가든,37.4474,127.0543';
+            });
+            map.setDraggable(false);
+            map.setZoomable(false);
+        }
+    }
+
+    // --- Share Logic --- //
+    const kakaoShareBtn = document.getElementById('share-kakao');
+    if (kakaoShareBtn && window.Kakao) {
+        kakaoShareBtn.addEventListener('click', () => {
+            Kakao.Share.sendDefault({
+                objectType: 'feed',
+                content: {
+                    title: '상모와 유나의 결혼식에 초대합니다',
+                    description: '2026년 8월 30일, 저희의 첫걸음을 함께 축복해주세요.',
+                    imageUrl: 'https://wooltra-35.github.io/wedding/thumnail.png',
+                    link: {
+                        mobileWebUrl: 'https://wooltra-35.github.io/wedding/',
+                        webUrl: 'https://wooltra-35.github.io/wedding/'
+                    }
+                },
+                buttons: [
+                    {
+                        title: '청첩장 보기',
+                        link: {
+                            mobileWebUrl: 'https://wooltra-35.github.io/wedding/',
+                            webUrl: 'https://wooltra-35.github.io/wedding/'
+                        }
+                    }
+                ]
+            });
+        });
+    }
+
+    const copyLinkBtn = document.getElementById('copy-link');
+    if (copyLinkBtn) {
+        copyLinkBtn.addEventListener('click', () => {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('청첩장 링크가 복사되었습니다.');
+            });
+        });
+    }
+
+    // --- RSVP Modal Logic --- //
+    const rsvpModal = document.getElementById('rsvp-modal');
+    const openRsvpBtn = document.getElementById('open-rsvp-modal-btn');
+    if (rsvpModal) {
+        const closeBtn = rsvpModal.querySelector('.close-btn');
+        const rsvpForm = document.getElementById('rsvp-form');
+        const mealFieldset = document.getElementById('meal-fieldset');
+
+        if (openRsvpBtn) {
+            openRsvpBtn.onclick = () => rsvpModal.style.display = 'block';
+        }
+        if (closeBtn) {
+            closeBtn.onclick = () => rsvpModal.style.display = 'none';
+        }
+        window.onclick = (event) => {
+            if (event.target == rsvpModal) {
+                rsvpModal.style.display = 'none';
+            }
+        };
+
+        if (rsvpForm) {
+            const attendanceRadios = rsvpForm.elements['attendance'];
+            if (attendanceRadios) {
+                Array.from(attendanceRadios).forEach(radio => {
+                    radio.onchange = (e) => {
+                        if (e.target.value === 'absent') {
+                            mealFieldset.style.display = 'none';
+                        } else {
+                            mealFieldset.style.display = 'block';
+                        }
+                    };
+                });
+            }
+
+            rsvpForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const contact = rsvpForm.querySelector('#rsvp-contact').value.replace(/\D/g, '');
+                if (!contact || contact.length < 10) {
+                    alert('올바른 연락처를 입력해주세요. (\'-\' 제외)');
+                    return;
+                }
+
+                const formData = {
+                    name: rsvpForm.querySelector('#rsvp-name').value,
+                    side: rsvpForm.elements['side'].value,
+                    attendance: rsvpForm.elements['attendance'].value,
+                    meal: rsvpForm.elements['attendance'].value === 'attending' ? rsvpForm.elements['meal'].value : 'N/A',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                db.collection('rsvps').doc(contact).set(formData, { merge: true })
+                    .then(() => {
+                        alert('참석 의사를 전달해주셔서 감사합니다.');
+                        rsvpModal.style.display = 'none';
+                        rsvpForm.reset();
+                        mealFieldset.style.display = 'block';
+                    })
+                    .catch(error => {
+                        console.error("Error writing document: ", error);
+                        alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+                    });
+            });
+        }
+    }
+
+
+    // --- Guestbook Logic (with Edit/Delete) --- //
     const guestbookForm = document.getElementById('guestbook-form');
     const guestbookEntries = document.getElementById('guestbook-entries');
 
@@ -80,7 +303,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const entryDiv = document.createElement('div');
         entryDiv.className = 'guestbook-entry';
         entryDiv.setAttribute('data-id', doc.id);
-
         const entryDate = entry.timestamp ? entry.timestamp.toDate().toLocaleDateString('ko-KR') : '';
 
         entryDiv.innerHTML = `
@@ -97,39 +319,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return entryDiv;
     };
 
-    // Listen for real-time updates
-    db.collection('guestbook').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
-        guestbookEntries.innerHTML = '';
-        snapshot.docs.forEach(doc => {
-            guestbookEntries.appendChild(renderGuestbookEntry(doc));
+    // Fetch and display entries
+    if (guestbookEntries) {
+        db.collection('guestbook').orderBy('timestamp', 'desc').onSnapshot(snapshot => {
+            guestbookEntries.innerHTML = '';
+            snapshot.docs.forEach(doc => {
+                guestbookEntries.appendChild(renderGuestbookEntry(doc));
+            });
         });
-    });
+    }
 
     // Handle form submission
     if (guestbookForm) {
         guestbookForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const name = guestbookForm.querySelector('#guestbook-name').value;
-            const password = guestbookForm.querySelector('#guestbook-password').value;
-            const message = guestbookForm.querySelector('#guestbook-message').value;
+            const nameInput = guestbookForm.querySelector('#guestbook-name');
+            const passwordInput = guestbookForm.querySelector('#guestbook-password');
+            const messageInput = guestbookForm.querySelector('#guestbook-message');
+
+            if (!nameInput.value || !passwordInput.value || !messageInput.value) {
+                alert('이름, 비밀번호, 메시지를 모두 입력해주세요.');
+                return;
+            }
+            if (!/^\d{4}$/.test(passwordInput.value)) {
+                 alert('비밀번호는 숫자 4자리로 입력해주세요.');
+                 return;
+            }
 
             db.collection('guestbook').add({
-                name: name,
-                password: password,
-                message: message,
+                name: nameInput.value,
+                password: passwordInput.value, // In a real app, hash this!
+                message: messageInput.value,
                 timestamp: firebase.firestore.FieldValue.serverTimestamp()
             }).then(() => {
                 guestbookForm.reset();
             }).catch(err => {
                 console.error("Error adding document: ", err);
+                alert('메시지 등록 중 오류가 발생했습니다.');
             });
         });
     }
     
-    // Handle edit and delete
+    // Handle Edit and Delete Clicks
     if (guestbookEntries) {
         guestbookEntries.addEventListener('click', (e) => {
-            const id = e.target.closest('.guestbook-entry').dataset.id;
+            const entryDiv = e.target.closest('.guestbook-entry');
+            if (!entryDiv) return;
+            const id = entryDiv.dataset.id;
+
             if (e.target.classList.contains('delete-btn')) {
                 handleDelete(id);
             } else if (e.target.classList.contains('edit-btn')) {
@@ -139,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const checkPasswordAndExecute = (id, callback) => {
-        const password = prompt('비밀번호 4자리를 입력하세요.');
+        const password = prompt('글 작성 시 입력했던 비밀번호 4자리를 입력하세요.');
         if (password) {
             db.collection('guestbook').doc(id).get().then(doc => {
                 if (doc.exists && doc.data().password === password) {
@@ -147,14 +384,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else {
                     alert('비밀번호가 일치하지 않습니다.');
                 }
+            }).catch(err => {
+                 alert('오류가 발생했습니다.');
+                 console.error(err);
             });
         }
     };
 
     const handleDelete = (id) => {
         checkPasswordAndExecute(id, () => {
-            if (confirm('정말로 삭제하시겠습니까?')) {
-                db.collection('guestbook').doc(id).delete();
+            if (confirm('정말로 이 메시지를 삭제하시겠습니까?')) {
+                db.collection('guestbook').doc(id).delete().catch(err => {
+                    alert('삭제 중 오류가 발생했습니다.');
+                    console.error(err);
+                });
             }
         });
     };
@@ -164,32 +407,18 @@ document.addEventListener('DOMContentLoaded', () => {
             const currentMessage = doc.data().message;
             const newMessage = prompt('메시지를 수정하세요.', currentMessage);
             if (newMessage && newMessage !== currentMessage) {
-                db.collection('guestbook').doc(id).update({ message: newMessage });
+                db.collection('guestbook').doc(id).update({ message: newMessage }).catch(err => {
+                     alert('수정 중 오류가 발생했습니다.');
+                     console.error(err);
+                });
             }
         });
     };
 
-    // --- Utility to escape HTML --- //
     const escapeHTML = (str) => {
-        const div = document.createElement('div');
-        div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
+      if (!str) return '';
+      const p = document.createElement('p');
+      p.appendChild(document.createTextNode(str));
+      return p.innerHTML;
     }
-
-    // --- Existing JS Code ---
-    const carousel = document.querySelector('.gallery-carousel');
-    if (carousel) { /* Gallery logic... */ }
-    const accordions = document.querySelectorAll('.accordion');
-    if (accordions.length > 0) { /* Accordion logic... */ }
-    const copyButtons = document.querySelectorAll('.copy-btn');
-    if (copyButtons.length > 0) { /* Copy logic... */ }
-    createCalendar(2026, 8);
-    calculateDday();
-    if (window.kakao && window.kakao.maps) { /* Map logic... */ }
-    const kakaoShareBtn = document.getElementById('share-kakao');
-    if (kakaoShareBtn) { /* Kakao share logic... */ }
-    const copyLinkBtn = document.getElementById('copy-link');
-    if (copyLinkBtn) { /* Link copy logic... */ }
-
-    // (Keep the implementation of createCalendar, calculateDday, and other existing functions here)
 });

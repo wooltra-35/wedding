@@ -81,7 +81,7 @@
         <!-- 6. Location -->
         <section id="location" class="location-section">
             <h2>오시는 길</h2>
-            <p class="address-main"><strong>주소</strong><br>서울특별시 서초구 청계산로 25 보넬리가든</p>
+            <p class="address-main">서울특별시 서초구 청계산로 25 보넬리가든</p>
             <div id="map"></div>
             <div class="transport-info">
                 <div class="transport-method">
@@ -111,10 +111,8 @@
                     <input type="text" id="guestbook-name" placeholder="이름" required>
                     <input type="password" id="guestbook-password" placeholder="비밀번호(4자리 숫자)" maxlength="4" inputmode="numeric" pattern="[0-9]{4}" required>
                 </div>
-                <div class="form-group">
-                    <textarea id="guestbook-message" placeholder="따뜻한 축하 메시지를 남겨주세요." required></textarea>
-                    <button type="submit">남기기</button>
-                </div>
+                <textarea id="guestbook-message" placeholder="따뜻한 축하 메시지를 남겨주세요." required></textarea>
+                <button type="submit" id="submit-guestbook">남기기</button>
             </form>
             <div id="guestbook-entries"></div>
         </section>
@@ -126,30 +124,64 @@
             <h2>마음 전하실 곳</h2>
             <p class="account-message">참석이 어려우신 분들을 위해<br>계좌번호를 기재하였습니다.<br>너그러운 마음으로 양해 부탁드립니다.</p>
             <div class="accordion-container">
-                 <div class="accordion">
-                    <div class="accordion-header" role="button" tabindex="0">
-                        <span>신랑 양상모 측 계좌번호</span>
+                <div class="accordion">
+                    <div class="accordion-header">
+                        <span>신랑측 계좌번호</span>
                         <span class="accordion-icon">+</span>
                     </div>
                     <div class="accordion-panel">
-                        <div class="account-details">
-                            <p><strong>토스뱅크</strong> 1000-0222-7288</p>
-                            <p>예금주: 양상모</p>
+                        <div class="account-grid">
+                            <div class="account-item">
+                                <div class="account-info">
+                                    <span class="role">신랑</span>
+                                    <span class="name">양상모</span>
+                                </div>
+                                <p>토스뱅크 1000-0222-7288</p>
+                                <button class="copy-btn" data-account="100002227288">복사</button>
+                            </div>
+                            <div class="account-item">
+                                <div class="account-info">
+                                    <span class="role">혼주</span>
+                                    <span class="name">양태용</span>
+                                </div>
+                                <p>우리은행 1002-123-456789</p>
+                                <button class="copy-btn" data-account="1002123456789">복사</button>
+                            </div>
                         </div>
-                        <button class="copy-btn" data-account="100002227288">📋</button>
                     </div>
                 </div>
                 <div class="accordion">
-                    <div class="accordion-header" role="button" tabindex="0">
-                        <span>신부 이유나 측 계좌번호</span>
+                    <div class="accordion-header">
+                        <span>신부측 계좌번호</span>
                         <span class="accordion-icon">+</span>
                     </div>
                     <div class="accordion-panel">
-                        <div class="account-details">
-                            <p><strong>카카오뱅크</strong> 0000-0000-0000</p>
-                            <p>예금주: 이유나</p>
+                        <div class="account-grid">
+                            <div class="account-item">
+                                <div class="account-info">
+                                    <span class="role">신부</span>
+                                    <span class="name">이유나</span>
+                                </div>
+                                <p>카카오뱅크 3333-12-3456789</p>
+                                <button class="copy-btn" data-account="3333123456789">복사</button>
+                            </div>
+                            <div class="account-item">
+                                <div class="account-info">
+                                    <span class="role">혼주</span>
+                                    <span class="name">이병영</span>
+                                </div>
+                                <p>신한은행 110-123-456789</p>
+                                <button class="copy-btn" data-account="110123456789">복사</button>
+                            </div>
+                            <div class="account-item">
+                                <div class="account-info">
+                                    <span class="role">혼주</span>
+                                    <span class="name">양순옥</span>
+                                </div>
+                                <p>농협은행 352-123-456789</p>
+                                <button class="copy-btn" data-account="352123456789">복사</button>
+                            </div>
                         </div>
-                        <button class="copy-btn" data-account="000000000000">📋</button>
                     </div>
                 </div>
             </div>
@@ -195,19 +227,32 @@
                 <input type="tel" id="rsvp-contact" placeholder="연락처 ('-' 없이)" required>
                 <fieldset>
                     <legend>구분</legend>
-                    <label><input type="radio" name="side" value="groom" checked> 신랑측</label>
-                    <label><input type="radio" name="side" value="bride"> 신부측</label>
+                    <div class="radio-group">
+                         <input type="radio" id="side-groom" name="side" value="groom" checked>
+                         <label for="side-groom" class="radio-btn">신랑측</label>
+                         <input type="radio" id="side-bride" name="side" value="bride">
+                         <label for="side-bride" class="radio-btn">신부측</label>
+                    </div>
                 </fieldset>
-                <fieldset>
+                 <fieldset>
                     <legend>참석 여부</legend>
-                    <label><input type="radio" name="attendance" value="attending" checked> 참석</label>
-                    <label><input type="radio" name="attendance" value="absent"> 불참</label>
+                     <div class="radio-group">
+                         <input type="radio" id="attend-yes" name="attendance" value="attending" checked>
+                         <label for="attend-yes" class="radio-btn">참석</label>
+                         <input type="radio" id="attend-no" name="attendance" value="absent">
+                         <label for="attend-no" class="radio-btn">불참</label>
+                    </div>
                 </fieldset>
                 <fieldset id="meal-fieldset">
                     <legend>식사 여부</legend>
-                    <label><input type="radio" name="meal" value="yes" checked> 예정</label>
-                    <label><input type="radio" name="meal" value="no"> 안함</label>
-                    <label><input type="radio" name="meal" value="not_sure"> 미정</label>
+                     <div class="radio-group">
+                        <input type="radio" id="meal-yes" name="meal" value="yes" checked>
+                        <label for="meal-yes" class="radio-btn">예정</label>
+                        <input type="radio" id="meal-no" name="meal" value="no">
+                        <label for="meal-no" class="radio-btn">안함</label>
+                        <input type="radio" id="meal-not-sure" name="meal" value="not_sure">
+                        <label for="meal-not-sure" class="radio-btn">미정</label>
+                    </div>
                 </fieldset>
                 <button type="submit" id="submit-rsvp-btn">참석 의사 전달하기</button>
             </form>
@@ -217,18 +262,7 @@
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-    <script>
-      const firebaseConfig = {
-        apiKey: "AIzaSyAfs_7ngMzczZqZmvrl7XWTR6LDOjYrtTw",
-        authDomain: "wooltra35-20925108-6ae65.firebaseapp.com",
-        projectId: "wooltra35-20925108-6ae65",
-        storageBucket: "wooltra35-20925108-6ae65.firebasestorage.app",
-        messagingSenderId: "983704910868",
-        appId: "1:983704910868:web:c33bfd76dc02dbc7d33b01"
-      };
-      firebase.initializeApp(firebaseConfig);
-    </script>
-
+    
     <!-- Kakao SDKs -->
     <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4735caea5648d5df0a21861927141a31&libraries=services"></script>

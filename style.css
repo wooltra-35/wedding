@@ -6,265 +6,162 @@
     --bg-color: #FDFBFC; /* Soft off-white */
     --footer-bg-color: #F7F3F4;
     --divider-color: #EAE2E5;
+    --button-hover-color: #c99bad;
+    --font-sans: 'Noto Sans KR', sans-serif;
+    --font-serif: 'Gowun Batang', serif;
+    --font-script: 'Dancing Script', cursive;
 }
 
 /* --- Basic Setup --- */
 body {
     margin: 0;
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: var(--font-sans);
     color: var(--text-color);
     background-color: var(--bg-color);
     text-align: center;
     line-height: 1.7;
 }
 
+/* Placeholder 통일 */
+input::placeholder, textarea::placeholder {
+    font-family: var(--font-sans);
+    color: #aaa;
+}
+
+
 .container {
     max-width: 480px;
     margin: 0 auto;
-    background-color: #fff; /* Main content on a clean white background */
+    background-color: #fff;
     box-shadow: 0 4px 15px rgba(0,0,0,0.05);
 }
 
-section {
-    padding: 50px 24px;
-}
+section { padding: 50px 24px; }
+.divider { height: 12px; background-color: var(--footer-bg-color); border-top: 1px solid var(--divider-color); border-bottom: 1px solid var(--divider-color); }
 
-.divider {
-    height: 12px;
-    background-color: var(--footer-bg-color);
-    border-top: 1px solid var(--divider-color);
-    border-bottom: 1px solid var(--divider-color);
-}
-
-h2, h3, h4 {
-    font-weight: 700;
-    margin: 0 0 24px 0;
-    color: #444;
-}
-
+h2, h3, h4 { font-weight: 700; margin: 0 0 24px 0; color: #444; }
 h2 { font-size: 1.5rem; }
 h4 { font-size: 1.1rem; }
 
-/* --- Hero Section (Restored) --- */
-.hero-section {
-    position: relative; /* For text overlay */
-    padding: 0;
-}
-.main-photo {
-    width: 100%;
-    height: auto; /* Let height adjust to maintain aspect ratio */
-    display: block; /* Remove any extra space below the image */
-    filter: brightness(0.6);
-}
-.hero-text {
-    position: absolute;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    color: white;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
-}
-.hero-text h1 {
-    font-family: 'Dancing Script', cursive; /* Changed font */
-    font-size: 2.9rem; /* Adjusted size */
-    font-weight: 700; /* Use bold variant of the font */
-    margin: 0 0 10px 0;
-}
+/* --- Hero Section --- */
+.hero-section { position: relative; padding: 0; }
+.main-photo { width: 100%; height: auto; display: block; filter: brightness(0.6); }
+.hero-text { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 100%; color: white; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
+.hero-text h1 { font-family: var(--font-script); font-size: 2.9rem; font-weight: 700; margin: 0 0 10px 0; }
 .hero-text p { font-size: 1.15rem; margin: 0; }
 
 /* --- Invitation Section --- */
-.script-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.2rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 30px;
-}
-.invitation-section .message { font-family: 'Gowun Batang', serif; font-size: 1.1rem; line-height: 1.9; }
+.script-title { font-family: var(--font-script); font-size: 2.2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 30px; }
+.invitation-section .message { font-family: var(--font-serif); font-size: 1.1rem; line-height: 1.9; }
 .parents { margin: 30px 0; font-size: 1rem; line-height: 1.8; }
-.sign-off { margin-top: 30px; font-family: 'Gowun Batang', serif; }
+.sign-off { margin-top: 30px; font-family: var(--font-serif); }
 
-/* --- Date & Countdown Section --- */
-.countdown-section .date-info { font-size: 1.2rem; font-weight: 500; margin-bottom: 30px; }
-.calendar { max-width: 380px; margin: 0 auto 30px; }
-.calendar .month-header { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; }
-.calendar table { width: 100%; border-collapse: collapse; }
-.calendar th, .calendar td { padding: 8px; text-align: center; font-size: 0.95rem; }
-.calendar th { color: #888; }
-
-.calendar td.wedding-day {
-    position: relative;
-    font-weight: 700;
-}
-
-.calendar td.wedding-day::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: var(--primary-color);
-    width: 2.4em;
-    height: 2.4em;
-    border-radius: 50%;
-    z-index: 1; /* Circle layer */
-}
-
-.calendar td.wedding-day span {
-    position: relative;
-    z-index: 2; /* Number layer, on top of the circle */
-    color: white; /* Make the number white */
-}
-
-.d-day { font-size: 1.1rem; }
-.d-day .d-day-highlight { color: var(--primary-color); font-weight: 700; }
-
-
-/* --- Contacts Section --- */
-.contact-container { display: flex; justify-content: space-around; max-width: 300px; margin: 24px auto 0; }
-.contact-person h4 { margin-bottom: 12px; color: #666; }
-.icon-btn { text-decoration: none; font-size: 2rem; margin: 0 10px; color: #999; transition: all 0.3s; }
-.icon-btn:hover { color: var(--primary-color); transform: scale(1.15); }
-
-/* --- Gallery Section (MODIFIED) --- */
-.gallery-container { position: relative; border-radius: 12px; overflow: hidden; }
-.gallery-carousel { display: flex; align-items: center; /* Vertically center images */ }
-.gallery-carousel img {
-    width: 100%;
-    height: 600px; /* Set a consistent height */
-    object-fit: cover; /* Cover the container without distorting aspect ratio */
-    flex-shrink: 0;
-    display: block;
-}
-.prev-btn, .next-btn {
-    position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.6); color: #555;
-    border: none; font-size: 20px; cursor: pointer; border-radius: 50%; width: 44px; height: 44px; line-height: 44px; z-index: 10;
-    transition: background-color 0.2s;
-}
-.prev-btn:hover, .next-btn:hover { background: rgba(255, 255, 255, 0.8); }
+/* --- Gallery Section --- */
+.gallery-container { position: relative; overflow: hidden; }
+.gallery-carousel { display: flex; transition: transform 0.5s ease-in-out; }
+.gallery-carousel img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 4 / 5; }
+.prev-btn, .next-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.6); border: none; font-size: 20px; cursor: pointer; border-radius: 50%; width: 44px; height: 44px; z-index: 10; }
 .prev-btn { left: 15px; }
 .next-btn { right: 15px; }
 
-/* --- Location Section --- */
-#map {
-    height: 300px;
-    width: 100%;
-    margin: 24px 0;
-    border-radius: 12px;
-    border: 1px solid var(--divider-color);
-}
-.nav-btn { display: block; width: 100%; box-sizing: border-box; background-color: var(--primary-color); color: white; padding: 16px; text-decoration: none; border: none; border-radius: 10px; font-size: 1.1rem; font-weight: 700; margin-bottom: 25px; cursor: pointer; transition: background-color 0.2s;}
-.nav-btn:hover { background-color: #c99bad; }
-.transport-info { text-align: left; font-size: 0.95rem; line-height: 1.8; background-color: var(--footer-bg-color); padding: 20px; border-radius: 10px; }
+/* --- Calendar & D-Day --- */
+.countdown-section .date-info { font-size: 1.2rem; font-weight: 500; margin-bottom: 30px; }
+.calendar { max-width: 380px; margin: 0 auto 30px; }
+.calendar table { width: 100%; border-collapse: collapse; }
+.calendar th, .calendar td { padding: 8px; text-align: center; }
+.calendar td.wedding-day { position: relative; font-weight: 700; }
+.calendar td.wedding-day::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: var(--primary-color); width: 2.4em; height: 2.4em; border-radius: 50%; z-index: 1; }
+.calendar td.wedding-day span { position: relative; z-index: 2; color: white; }
+.d-day { font-size: 1.1rem; }
 
-/* ADDED: Tighten up transit info spacing */
-.transport-method > h4 {
-    margin-bottom: 8px; /* Add a bit of space below the heading */
-}
-.transport-method p {
-    margin: 6px 0; /* Set a smaller vertical margin */
-    line-height: 1.6; /* Adjust line height for readability */
-}
+/* --- Location Section (Font styles restored) --- */
+#map { height: 300px; width: 100%; margin: 24px 0; border-radius: 12px; border: 1px solid var(--divider-color); }
+.address-main { font-size: 1.1rem; font-weight: 500; }
+.transport-info { text-align: left; padding: 20px; border-radius: 10px; background-color: var(--footer-bg-color); }
+.transport-method h4 { margin-bottom: 8px; }
+.transport-method p { margin: 6px 0; line-height: 1.6; }
+.transport-info .highlight { color: var(--primary-color); font-weight: bold; }
+.transport-info strong { font-weight: 700; color: #555; }
 
-/* --- Bank Accounts Section --- */
-.accordion-container { max-width: 400px; margin: 0 auto; }
-.accordion { border: 1px solid var(--divider-color); border-radius: 10px; margin-bottom: 10px; text-align: left; background-color: #fff; overflow: hidden; }
+
+/* --- Guestbook Section (Spacing Fixed) --- */
+#guestbook-form .form-group { display: flex; gap: 10px; margin-bottom: 10px; }
+#guestbook-form textarea { width: 100%; padding: 12px; border: 1px solid var(--divider-color); border-radius: 8px; box-sizing: border-box; resize: vertical; min-height: 80px; margin-bottom: 10px;}
+#submit-guestbook { width: 100%; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 14px; font-size: 1.1rem; font-weight: 700; }
+#guestbook-entries { margin-top: 30px; text-align: left; max-height: 400px; overflow-y: auto; padding-right: 10px; }
+.guestbook-entry { background-color: var(--footer-bg-color); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.entry-message { margin: 0 0 12px; word-break: break-word; }
+.entry-actions { text-align: right; }
+.entry-actions button { background: none; border: none; color: #999; cursor: pointer; font-size: 0.9rem; margin-left: 8px; }
+
+
+/* --- Bank Accounts Section (Accordion) --- */
+.accordion-container {} 
+.accordion { border: 1px solid var(--divider-color); border-radius: 10px; margin-bottom: 10px; overflow: hidden;}
 .accordion-header { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
-.accordion-header .accordion-icon { font-size: 1.5rem; font-weight: 300; color: var(--primary-color); transition: transform 0.3s ease-in-out; }
-.accordion-panel { padding: 0 16px; max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.4s ease-out; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid transparent; }
+.accordion-icon { font-size: 1.5rem; transition: transform 0.3s; }
+.accordion-header.active .accordion-icon { transform: rotate(45deg); }
 
-.accordion.active .accordion-header .accordion-icon { transform: rotate(45deg); }
-.accordion.active .accordion-panel { max-height: 100px; padding: 20px 16px; border-top: 1px solid var(--divider-color); }
+.accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: var(--footer-bg-color); padding: 0 10px;}
 
-.copy-btn { background: #EFEFEF; color: #333; border: none; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 1rem; }
-.copy-btn:hover { background: #e0e0e0; }
-
-/* --- Footer Section --- */
-.footer-section { background: var(--footer-bg-color); padding: 30px 24px; border-top: 1px solid var(--divider-color); }
-.footer-section button { max-width: 400px; width: 100%; display: block; margin: 0 auto 10px; padding: 16px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-size: 1.05rem; transition: transform 0.2s; }
-.footer-section button:hover { transform: translateY(-2px); }
-#share-kakao { background-color: #FADDAA; color: #3C1E1E; } /* MODIFIED: Softer yellow */
-#copy-link { background-color: var(--primary-color); color: white; }
-
-/* --- Utility Classes --- */
-.highlight { color: var(--primary-color); font-weight: bold; }
-.name { font-weight: bold; }
-
-/* --- Styles for New Features --- */
-
-/* General Form Styles */
-input[type="text"], input[type="password"], input[type="tel"], textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--divider-color);
+.account-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 15px 5px;
+}
+.account-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #fff;
+    padding: 12px 16px;
     border-radius: 8px;
-    box-sizing: border-box;
-    font-family: 'Noto Sans KR', sans-serif;
-    font-size: 1rem;
-    margin-bottom: 12px;
 }
-textarea { resize: vertical; min-height: 80px; }
-
-button, input[type="submit"] {
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-/* RSVP Section */
-.rsvp-section p { margin-bottom: 24px; }
-#open-rsvp-modal-btn {
+.account-info { text-align: left; }
+.account-info .role { font-size: 0.9rem; color: #666; display: block;}
+.account-info .name { font-weight: 700; font-size: 1.1rem; }
+.bank-details { display: none; } /* Hide bank details initially */
+.account-item .copy-btn {
     background-color: var(--primary-color);
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 14px 30px;
-    font-size: 1.1rem;
-    font-weight: 700;
-}
-
-/* Guestbook Section */
-#guestbook-form .form-group { display: flex; gap: 10px; }
-#guestbook-form .form-group:first-child input { flex: 1; }
-#guestbook-form .form-group:last-child { align-items: flex-end; }
-#guestbook-form textarea { flex-grow: 1; }
-#guestbook-form button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 0 20px;
-    height: 48px; 
+    border-radius: 6px;
+    padding: 8px 12px;
     font-weight: 700;
     flex-shrink: 0;
 }
 
-#guestbook-entries {
-    margin-top: 30px;
-    text-align: left;
-}
+/* --- Contacts Section (Styles Restored) --- */
+.contact-container { display: flex; justify-content: space-around; max-width: 300px; margin: 24px auto 0; }
+.contact-person h4 { margin-bottom: 12px; }
+.icon-btn { text-decoration: none; font-size: 2rem; margin: 0 10px; }
+.icon-btn.call { color: #55acee; }
+.icon-btn.sms { color: #78c850; }
 
-.guestbook-entry {
-    background-color: var(--footer-bg-color);
-    border: 1px solid var(--divider-color);
-    border-radius: 8px;
-    padding: 16px;
-    margin-bottom: 12px;
-    position: relative;
-}
 
-.guestbook-entry .entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.guestbook-entry .entry-name { font-weight: 700; color: #444; }
-.guestbook-entry .entry-date { font-size: 0.85rem; color: #888; }
-.guestbook-entry .entry-message { margin-bottom: 12px; }
-.guestbook-entry .entry-actions button { background: none; border: none; color: #999; cursor: pointer; padding: 2px 4px; font-size: 0.85rem; }
-.guestbook-entry .entry-actions button:hover { color: var(--primary-color); }
+/* --- RSVP Section --- */
+#open-rsvp-modal-btn { background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 14px 30px; font-size: 1.1rem; font-weight: 700; }
 
-/* RSVP Modal */
-.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); padding-top: 60px; }
-.modal-content { background-color: #fff; margin: auto; padding: 30px; border-radius: 12px; max-width: 90%; width: 420px; position: relative; }
-.close-btn { position: absolute; top: 15px; right: 20px; color: #aaa; font-size: 28px; font-weight: bold; cursor: pointer; }
-#rsvp-form fieldset { border: 1px solid var(--divider-color); border-radius: 8px; padding: 10px 15px; margin-bottom: 15px; }
-#rsvp-form legend { font-weight: 700; padding: 0 8px; font-size: 0.95rem; color: #555; }
-#rsvp-form label { margin-right: 20px; display: inline-block; }
+/* --- Modal & RSVP Form --- */
+.modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); }
+.modal-content { background-color: #fff; margin: 15% auto; padding: 30px; border-radius: 12px; max-width: 90%; width: 420px; position: relative; }
+.close-btn { position: absolute; top: 15px; right: 20px; font-size: 28px; cursor: pointer; }
+#rsvp-form fieldset { border: none; padding: 0; margin-bottom: 20px; }
+#rsvp-form legend { font-weight: 700; text-align: left; margin-bottom: 10px; }
+#rsvp-form .radio-group { display: flex; justify-content: space-between; gap: 5px; }
+#rsvp-form input[type="radio"] { display: none; }
+#rsvp-form label.radio-btn { flex: 1; text-align: center; padding: 12px; border: 1px solid var(--divider-color); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+#rsvp-form input[type="radio"]:checked + label.radio-btn { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
 #submit-rsvp-btn { width: 100%; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 14px; font-size: 1.1rem; font-weight: 700; margin-top: 10px; }
+
+/* --- General Form Styles --- */
+input[type="text"], input[type="password"], input[type="tel"] { width: 100%; padding: 12px; border: 1px solid var(--divider-color); border-radius: 8px; box-sizing: border-box; margin-bottom: 10px; }
+
+/* --- Footer --- */
+.footer-section { background: var(--footer-bg-color); padding: 30px 24px; }
+.footer-section button { max-width: 400px; width: 100%; display: block; margin: 0 auto 10px; padding: 16px; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+#share-kakao { background-color: #FEE500; color: #191919; }
+#copy-link { background-color: var(--primary-color); color: white; }
+

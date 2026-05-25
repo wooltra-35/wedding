@@ -32,7 +32,7 @@ h1, h2, h3 {
     font-family: var(--font-accent);
 }
 
-/* --- Hero Section (Scroll Indicator Removed) --- */
+/* --- Hero Section --- */
 .hero-section {
     position: relative;
     height: 100vh;
@@ -76,92 +76,25 @@ h1, h2, h3 {
 
 /* --- Invitation Section --- */
 .invitation-section { padding: 50px 20px; }
+.invitation-section h2 {
+    font-family: var(--font-accent);
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
 .invitation-section .message { margin: 30px 0; font-size: 1.1em; line-height: 1.8; font-family: var(--font-accent); }
 .parents p { margin: 10px 0; line-height: 1.6; font-size: 1.05em; }
 .parents .name { font-weight: bold; }
 .parents .deceased { color: #b0b0b0; font-weight: normal; display: inline-block; margin-right: 4px; }
 
-/* --- General Buttons --- */
-button, .button-like {
-    background-color: var(--primary-color);
-    color: var(--bg-color);
-    border: none;
-    padding: 12px 25px;
-    font-family: var(--font-main);
-    font-weight: 700;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-}
-
-button:hover, .button-like:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* --- Contacts Section (REDESIGNED) --- */
+/* --- Contacts Section --- */
 .contacts-section h2 { margin-bottom: 30px; }
-
-.contact-container {
-    display: flex;
-    justify-content: space-around; /* Evenly space the two contacts */
-    align-items: center;
-    width: 100%;
-    max-width: 350px;
-    margin: 0 auto;
-}
-
-.contact-person {
-    text-align: center;
-}
-
-.contact-person h4 {
-    margin: 0 0 15px;
-    font-size: 1.15em;
-    font-weight: 700;
-    font-family: var(--font-main);
-}
-
-.btn-group {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.icon-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 1.5rem; /* Emoji size */
-    text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-.icon-btn:hover {
-    transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 6px 15px rgba(225, 197, 197, 0.5); /* Shadow in primary color */
-}
-
-/* --- Calendar Section --- */
-.calendar { width: 90%; max-width: 400px; margin: 20px auto 30px; border: 1px solid #eee; border-radius: 10px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-.calendar-header h3 { margin: 0 0 15px; color: var(--primary-color); font-size: 1.5em; }
-.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
-.day, .day-name { display: flex; justify-content: center; align-items: center; height: 35px; font-size: 0.9em; }
-.day-name { font-weight: bold; color: var(--text-color); }
-.day { border-radius: 50%; transition: background-color 0.2s; }
-.day.empty { background-color: transparent; }
-.day.today { background-color: #eaf6ff; color: #007bff; font-weight: bold; }
-.day.wedding-day { background-color: var(--primary-color); color: white; font-weight: bold; position: relative; }
-.day.wedding-day::after { content: '❤️'; position: absolute; top: -5px; right: -5px; font-size: 14px; }
+.contact-container { display: flex; justify-content: space-around; align-items: center; width: 100%; max-width: 350px; margin: 0 auto; }
+.contact-person { text-align: center; }
+.contact-person h4 { margin: 0 0 15px; font-size: 1.15em; font-weight: 700; font-family: var(--font-main); }
+.btn-group { display: flex; justify-content: center; gap: 15px; }
+.icon-btn { display: flex; justify-content: center; align-items: center; width: 50px; height: 50px; border-radius: 50%; background-color: var(--primary-color); color: white; font-size: 1.5rem; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.icon-btn:hover { transform: translateY(-3px) scale(1.05); box-shadow: 0 6px 15px rgba(225, 197, 197, 0.5); }
 
 /* --- Gallery Section --- */
 .gallery-container { position: relative; width: 90%; max-width: 420px; aspect-ratio: 3 / 4; margin: 20px auto; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
@@ -172,52 +105,70 @@ button:hover, .button-like:hover {
 .prev-btn { left: 0; }
 .next-btn { right: 0; }
 
-/* --- Footer Section --- */
-.footer-section {
-    padding: 30px 20px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
+/* --- Date & Countdown Section --- */
+.calendar { width: 90%; max-width: 400px; margin: 20px auto 30px; border: 1px solid #eee; border-radius: 10px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); background-color: #fff; }
+.calendar-header h3 { margin: 0 0 15px; color: var(--primary-color); font-size: 1.5em; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.day, .day-name { display: flex; justify-content: center; align-items: center; height: 35px; font-size: 0.9em; }
+.day-name { font-weight: bold; color: var(--text-color); }
+.day { border-radius: 50%; transition: background-color 0.2s; }
+.day.empty { background-color: transparent; }
+.day.today { background-color: #eaf6ff; color: #007bff; font-weight: bold; }
+.day.wedding-day { background-color: var(--primary-color); color: white; font-weight: bold; position: relative; }
+.day.wedding-day::after { content: '❤️'; position: absolute; top: -5px; right: -5px; font-size: 14px; }
+
+/* --- Location Section (UPDATED) --- */
+.location-section .address-main { font-size: 1.1em; line-height: 1.7; margin-bottom: 20px; }
+.location-section .address-main strong { font-family: var(--font-accent); }
+
+.transport-info {
+    margin-top: 30px;
+    text-align: left;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 30px;
 }
 
-#share-kakao, #copy-link {
-    width: 80%;
-    max-width: 300px;
+.transport-method {
+    margin-bottom: 25px;
 }
 
-/* --- Bank Account Section (NEW) --- */
-.bank-section h2 {
-    margin-bottom: 20px;
+.transport-method h4 {
+    font-family: var(--font-accent);
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    border-left: 3px solid var(--primary-color);
+    padding-left: 10px;
 }
 
-.bank-section .account-message {
-    margin-bottom: 30px;
-    font-size: 1em;
+.transport-method p {
+    margin: 8px 0;
     line-height: 1.7;
-    color: var(--text-color);
+    font-size: 1rem;
 }
 
-.accordion-container {
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+.transport-method .highlight, .venue-notice {
+    color: #C73E3E;
+    font-weight: bold;
+    margin-top: 15px;
 }
+.venue-notice { text-align: center; }
+
+/* --- Bank Account Section --- */
+.bank-section h2 { margin-bottom: 20px; }
+.bank-section .account-message { margin-bottom: 30px; font-size: 1em; line-height: 1.7; color: var(--text-color); }
+.accordion-container { max-width: 400px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
 
 .accordion {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
     overflow: hidden;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background-color: transparent;
 }
 
 .accordion-header {
     width: 100%;
-    background-color: transparent;
+    background-color: #F0EBE5;
     border: none;
     padding: 18px 20px;
     display: flex;
@@ -228,64 +179,36 @@ button:hover, .button-like:hover {
     font-weight: 700;
     color: var(--text-color);
     font-family: var(--font-main);
+    border-radius: 8px;
 }
 
-.accordion-icon {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #ccc;
-    transition: transform 0.3s ease;
+.accordion-header.active {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
-.accordion-header.active .accordion-icon {
-    transform: rotate(45deg);
-    color: var(--primary-color);
-}
+.accordion-icon { font-size: 1.2rem; font-weight: bold; color: #ccc; transition: transform 0.3s ease; }
+.accordion-header.active .accordion-icon { transform: rotate(45deg); color: var(--primary-color); }
 
 .accordion-panel {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease-out, padding 0.4s ease;
-    background-color: #f9f9f9;
+    background-color: #F8F4EF;
     padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
-.accordion-panel.show {
-    padding: 20px;
-    max-height: 150px;
-}
+.accordion-panel.show { padding: 20px; max-height: 150px; border-top: 1px solid #e0e0e0; }
+.account-details p { margin: 5px 0; text-align: left; font-size: 0.95rem; color: #666; }
+.account-details strong { font-weight: bold; margin-right: 5px; color: #333; }
+.copy-btn { background-color: transparent; color: var(--primary-color); border: none; padding: 5px; border-radius: 50%; cursor: pointer; font-size: 1.6rem; line-height: 1; transition: background-color 0.2s; display: flex; align-items: center; justify-content: center; }
+.copy-btn:hover { background-color: #f0f0f0; }
 
-.account-details p {
-    margin: 5px 0;
-    text-align: left;
-    font-size: 0.95rem;
-    color: #666;
-}
-
-.account-details strong {
-    font-weight: bold;
-    margin-right: 5px;
-    color: #333;
-}
-
-.copy-btn {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: none;
-    padding: 5px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.6rem;
-    line-height: 1;
-    transition: background-color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.copy-btn:hover {
-    background-color: #f0f0f0;
-}
+/* --- Footer Section --- */
+.footer-section { padding: 30px 20px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; }
+#share-kakao, #copy-link { width: 80%; max-width: 300px; }

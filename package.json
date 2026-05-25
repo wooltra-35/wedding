@@ -1,0 +1,14 @@
+{
+  "name": "wedding-invitation",
+  "version": "1.0.0",
+  "description": "A simple wedding invitation card",
+  "main": "main.js",
+  "scripts": {
+    "start": "http-server -c-1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

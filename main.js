@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: {
                     title: '상모와 유나의 결혼식에 초대합니다',
                     description: '2026년 8월 30일, 저희의 첫걸음을 함께 축복해주세요.',
-                    imageUrl: 'https://wooltra-35.github.io/wedding/thumnail.png',
+                    imageUrl: 'https://wooltra-35.github.io/wedding/images/thumnail.png',
                     link: {
                         mobileWebUrl: 'https://wooltra-35.github.io/wedding/',
                         webUrl: 'https://wooltra-35.github.io/wedding/'

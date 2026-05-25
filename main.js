@@ -577,4 +577,21 @@ document.addEventListener('DOMContentLoaded', () => {
               });
         });
     }
+
+    // --- Scroll-based Fade-in Animation --- //
+    const fadeInSections = document.querySelectorAll('.fade-in-section');
+    if (fadeInSections.length > 0) {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeInSections.forEach(section => {
+            observer.observe(section);
+        });
+    }
 });

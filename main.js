@@ -76,17 +76,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initGallery() {
+        const container = document.querySelector('.gallery-container');
         const carousel = document.querySelector('.gallery-carousel');
-        if (!carousel) return;
+        if (!carousel || !container) return;
 
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
         const images = carousel.querySelectorAll('img');
         const imageCount = images.length;
         let currentIndex = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
 
         function updateCarousel() {
+            carousel.style.transition = 'transform 0.5s ease-in-out';
             carousel.style.transform = `translateX(${-currentIndex * 100}%)`;
+        }
+
+        function handleGesture() {
+            const touchDiff = touchEndX - touchStartX;
+            if (touchDiff > 50 && currentIndex > 0) { // Swipe Right
+                currentIndex--;
+            } else if (touchDiff < -50 && currentIndex < imageCount - 1) { // Swipe Left
+                currentIndex++;
+            }
+            updateCarousel();
         }
 
         if (imageCount > 1) {
@@ -98,10 +112,52 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentIndex = (currentIndex - 1 + imageCount) % imageCount;
                 updateCarousel();
             });
+            
+            container.addEventListener('touchstart', e => {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+
+            container.addEventListener('touchend', e => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleGesture();
+            });
+
         } else {
             if (prevBtn) prevBtn.style.display = 'none';
             if (nextBtn) nextBtn.style.display = 'none';
         }
+    }
+
+    function initAccordions() {
+        const accordions = document.querySelectorAll('.accordion-header');
+        accordions.forEach(acc => {
+            acc.addEventListener('click', () => {
+                const panel = acc.nextElementSibling;
+                const isActive = acc.classList.toggle('active');
+                panel.classList.toggle('show', isActive);
+
+                accordions.forEach(otherAcc => {
+                    if (otherAcc !== acc && otherAcc.classList.contains('active')) {
+                        otherAcc.classList.remove('active');
+                        otherAcc.nextElementSibling.classList.remove('show');
+                    }
+                });
+            });
+        });
+
+        const copyButtons = document.querySelectorAll('.copy-btn');
+        copyButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation(); 
+                const account = btn.dataset.account;
+                navigator.clipboard.writeText(account).then(() => {
+                    alert('계좌번호가 복사되었습니다.');
+                }).catch(err => {
+                    alert('복사에 실패했습니다.');
+                    console.error('Copy failed', err);
+                });
+            });
+        });
     }
 
     function initShareAndCopy() {
@@ -121,7 +177,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (kakaoBtn && typeof Kakao !== 'undefined') {
             if (!Kakao.isInitialized()) {
-                Kakao.init('4735caea5648d5df0a21861927141a31');
+                try {
+                    Kakao.init('4735caea5648d5df0a21861927141a31');
+                } catch(e) {
+                    console.error("Kakao.init failed:", e)
+                }
             }
             kakaoBtn.addEventListener('click', () => {
                 Kakao.Share.sendDefault({
@@ -129,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     content: {
                         title: '상모와 유나의 결혼식에 초대합니다',
                         description: '2026년 8월 30일, 보넬리가든에서 저희의 새로운 시작을 함께 축복해주세요.',
-                        imageUrl: 'https://github.com/eunbining/wedding-invitation/blob/main/images/UTK_1722-1sk.jpg?raw=true',
+                        imageUrl: window.location.protocol + '//' + window.location.host + '/' + 'images/UTK_1722-1sk.jpg',
                         link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
                     },
                     buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: window.location.href, webUrl: window.location.href }}],
@@ -143,10 +203,15 @@ document.addEventListener('DOMContentLoaded', function() {
     initDDay();
     initKakaoMap();
     initGallery();
+    initAccordions(); // <-- 이 부분을 새로 추가했습니다!
     
     const kakaoScript = document.createElement('script');
     kakaoScript.src = 'https://developers.kakao.com/sdk/js/kakao.min.js';
-    kakaoScript.onload = () => initShareAndCopy();
+    kakaoScript.integrity = "sha384-6tE/HE2S315kBNZ/w57E9NO1024aD3c2dRe1Y2lC/HW+2s+QZdxuGfUuE9VDEsG/"
+    kakaoScript.crossOrigin = "anonymous"
+    kakaoScript.onload = () => {
+        initShareAndCopy();
+    };
     document.head.appendChild(kakaoScript);
 
     const navBtn = document.querySelector('.nav-btn');

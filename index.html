@@ -12,14 +12,13 @@
 </head>
 <body>
     <div class="container">
-        <!-- 1. Hero Section (UPDATED) -->
+        <!-- 1. Hero Section -->
         <section id="hero" class="hero-section">
             <img src="images/UTK_1722-1sk.jpg" alt="결혼식 메인 이미지" class="main-photo">
             <div class="hero-text">
                 <h1>상모 & 유나</h1>
                 <p>2026년 8월 30일 일요일 오후 6시</p>
             </div>
-            <!-- Scroll indicator removed -->
         </section>
 
         <hr class="divider">
@@ -50,7 +49,7 @@
 
         <hr class="divider">
 
-        <!-- 3. Contacts Section (REDESIGNED) -->
+        <!-- 3. Contacts Section -->
         <section id="contacts" class="contacts-section">
             <h2>신랑 & 신부에게 연락하기</h2>
             <div class="contact-container">
@@ -94,12 +93,8 @@
         <section id="countdown" class="countdown-section">
             <h2>결혼식 일시</h2>
             <p class="date-info">2026년 8월 30일 일요일 오후 6시</p>
-            <div class="calendar">
-                <!-- 달력은 여기에 동적으로 생성됩니다 -->
-            </div>
-            <div class="d-day">
-                <!-- 카운트다운 메시지는 여기에 동적으로 생성됩니다 -->
-            </div>
+            <div class="calendar"></div>
+            <div class="d-day"></div>
         </section>
 
         <hr class="divider">
@@ -112,7 +107,7 @@
             <button class="nav-btn">길찾기</button>
             <div class="transport-info">
                 <h4>주차 안내</h4>
-                <p>건물 내 주차 공간이 협소하오니 가급적 대중교용 이용을 부탁드립니다.</p>
+                <p>건물 내 주차 공간이 협소하오니 가급적 대중교통 이용을 부탁드립니다.</p>
                 <h4>대중교통 안내</h4>
                 <p>신분당선 청계산입구역 2번 출구에서 도보 15분</p>
             </div>
@@ -120,35 +115,47 @@
 
         <hr class="divider">
 
-        <!-- 7. Venue Info -->
-        <section id="venue" class="venue-section">
-            <h2>예식장 안내</h2>
-            <!-- Venue info cards will be added here -->
-        </section>
-        
-        <hr class="divider">
-
-        <!-- 8. Bank Accounts -->
+        <!-- 8. Bank Accounts (NEWLY ADDED) -->
         <section id="bank" class="bank-section">
             <h2>마음 전하실 곳</h2>
-            <!-- Bank account accordions will be added here -->
+            <p class="account-message">
+                참석이 어려우신 분들을 위해<br>
+                계좌번호를 기재하였습니다.<br>
+                너그러운 마음으로 양해 부탁드립니다.
+            </p>
+            <div class="accordion-container">
+                <div class="accordion">
+                    <div class="accordion-header" role="button" tabindex="0">
+                        <span>신랑 양상모 측 계좌번호</span>
+                        <span class="accordion-icon">+</span>
+                    </div>
+                    <div class="accordion-panel">
+                        <div class="account-details">
+                            <p><strong>토스뱅크</strong> 1000-0222-7288</p>
+                            <p>예금주: 양상모</p>
+                        </div>
+                        <button class="copy-btn" data-account="100002227288" aria-label="계좌번호 복사하기">📋</button>
+                    </div>
+                </div>
+                <div class="accordion">
+                    <div class="accordion-header" role="button" tabindex="0">
+                        <span>신부 이유나 측 계좌번호</span>
+                        <span class="accordion-icon">+</span>
+                    </div>
+                    <div class="accordion-panel">
+                        <div class="account-details">
+                            <p><strong>카카오뱅크</strong> 0000-0000-0000</p>
+                            <p>예금주: 이유나</p>
+                        </div>
+                        <button class="copy-btn" data-account="000000000000" aria-label="계좌번호 복사하기">📋</button>
+                    </div>
+                </div>
+            </div>
         </section>
-        
+
         <hr class="divider">
 
-        <!-- 9. RSVP -->
-        <section id="rsvp" class="rsvp-section">
-            <h2>참석 의사 전달</h2>
-            <button class="rsvp-btn">참석 의사 전달하기</button>
-        </section>
-
-        <hr class="divider">
-
-        <!-- 10. Guestbook -->
-        <section id="guestbook" class="guestbook-section">
-            <h2>축하 메시지 남기기</h2>
-            <!-- Guestbook will be added here -->
-        </section>
+        <!-- Other sections will follow -->
 
         <!-- 11. Footer -->
         <footer class="footer-section">
@@ -157,10 +164,7 @@
         </footer>
     </div>
 
-    <!-- Contact Modal Removed -->
-
     <script src="main.js"></script>
-    <!-- Kakao Maps SDK -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4735caea5648d5df0a21861927141a31&libraries=services"></script>
 </body>
 </html>

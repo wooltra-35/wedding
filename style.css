@@ -187,5 +187,105 @@ button:hover, .button-like:hover {
     max-width: 300px;
 }
 
-/* --- Modal Styles Removed --- */
+/* --- Bank Account Section (NEW) --- */
+.bank-section h2 {
+    margin-bottom: 20px;
+}
 
+.bank-section .account-message {
+    margin-bottom: 30px;
+    font-size: 1em;
+    line-height: 1.7;
+    color: var(--text-color);
+}
+
+.accordion-container {
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.accordion {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.accordion-header {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 18px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    font-family: var(--font-main);
+}
+
+.accordion-icon {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ccc;
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .accordion-icon {
+    transform: rotate(45deg);
+    color: var(--primary-color);
+}
+
+.accordion-panel {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease;
+    background-color: #f9f9f9;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.accordion-panel.show {
+    padding: 20px;
+    max-height: 150px;
+}
+
+.account-details p {
+    margin: 5px 0;
+    text-align: left;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.account-details strong {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #333;
+}
+
+.copy-btn {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: none;
+    padding: 5px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.6rem;
+    line-height: 1;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copy-btn:hover {
+    background-color: #f0f0f0;
+}

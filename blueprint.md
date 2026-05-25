@@ -1,71 +1,49 @@
 
-# Blueprint: Wedding Invitation Website
+# 청첩장 웹사이트 프로젝트 Blueprint
 
-## **Overview**
+이 문서는 '상모와 유나의 결혼식' 디지털 청첩장 프로젝트의 기능, 디자인, 기술적 사양을 정의하는 청사진입니다.
 
-This project is a simple, elegant, and modern digital wedding invitation website. It is a single-page application built with HTML, CSS, and JavaScript, featuring a clean design, smooth animations, and interactive elements. The goal is to provide guests with all the necessary information in a beautiful and easily accessible format.
+## 1. 프로젝트 개요
 
----
+신랑 양상모와 신부 이유나의 결혼을 축하하고 하객들에게 예식 정보를 효과적으로 전달하기 위한 인터랙티브 웹 청첩장입니다. 아름다운 디자인과 함께 하객의 편의를 위한 동적인 기능을 제공하는 것을 목표로 합니다.
 
-## **Project Structure & Design (As-Is)**
+## 2. 구현된 기능 및 디자인 (v2.0)
 
-### **1. File Structure**
-```
-/
-|-- index.html        # Main HTML file
-|-- style.css         # CSS for styling
-|-- main.js           # JavaScript for interactivity
-|-- images/           # Folder for all images
-|   |-- UTK_1722-1sk.jpg (Main Photo)
-|   |-- UTK_1026-1sk.jpg (Gallery)
-|   |-- UTK_1855.jpg (Gallery)
-|   |-- UTK_2428-1.jpg (Gallery)
-|   |-- UTK_2948-1sk.jpg (Gallery)
-|-- firebase.json
-|-- package.json
-...
-```
+### v1.0 (기본 기능)
+*   **디자인:**
+    *   **색상:** 따뜻하고 우아한 색상 팔레트 사용
+    *   **폰트:** `Dancing Script` (영문), `Gowun Batang` (국문)을 사용해 클래식하고 감성적인 느낌 전달
+    *   **레이아웃:** 모바일 우선 반응형 디자인, 섹션 구분을 위한 깔끔한 구분선, 시각적 계층 구조 명확화
+*   **주요 섹션:**
+    *   **메인 (Hero):** 웨딩 사진과 예식일시를 배치하여 첫인상 강조.
+    *   **초대글:** 신랑, 신부 및 혼주 정보 포함.
+    *   **사진 갤러리:** 슬라이드 캐러셀 형태로 여러 웨딩 사진을 볼 수 있도록 구현.
+    *   **예식일 및 D-Day:** 달력과 카운트다운을 통해 예식일을 시각적으로 강조.
+    *   **오시는 길:** 카카오맵 API를 연동한 지도와 대중교통, 자가용 이용 안내.
+    *   **마음 전하실 곳:** 아코디언 UI를 활용해 계좌번호를 깔끔하게 안내하고, 복사 기능으로 편의성 증대.
+    *   **연락처:** 전화, 문자 보내기 기능 바로가기 제공.
+    *   **공유 기능:** 카카오톡 공유 및 링크 복사 기능.
 
-### **2. Core Components & Features**
+### v2.0 (인터랙티브 기능 추가)
 
-*   **Hero Section:** A full-screen section with a main photo of the couple and the wedding date.
-*   **Invitation Card:** A formal invitation text from the couple and their parents.
-*   **Contact Information:** Buttons to easily call or message the bride and groom.
-*   **Photo Gallery:** A collection of photos. **(Currently broken)**
+*   **백엔드 기술:** **Firebase (Cloud Firestore)** 를 도입하여 데이터 저장 및 실시간 동기화 구현.
 
-### **3. Styling & Design**
+*   **참석 여부 조사 (RSVP):**
+    *   **UI/UX:** '참석 여부 알려주기' 버튼 클릭 시, 깔끔한 디자인의 **모달(Modal) 창**을 통해 사용자 경험을 해치지 않고 정보를 입력받도록 구현.
+    *   **기능:**
+        *   하객이 입력한 이름, 연락처, 구분, 참석 여부, 식사 여부 등의 정보를 Firestore `rsvps` 컬렉션에 저장.
+        *   하객의 **연락처를 고유 식별자(Document ID)로 사용**하여, 동일 인물이 재응답 시 기존 정보를 덮어쓰는 방식으로 데이터의 중복 및 혼란을 방지.
 
-*   **Fonts:** Uses `Gowun Batang` for headings and `Noto Sans KR` for body text for a classic and readable feel.
-*   **Layout:** A single-column, responsive layout centered in the viewport.
-*   **Color Scheme:** A simple and elegant color palette.
-*   **Dividers:** Simple line dividers separate each section.
+*   **방명록 (Guestbook):**
+    *   **UI/UX:** 이름, 비밀번호, 메시지를 입력할 수 있는 직관적인 폼과 함께, 작성된 글들이 최신순으로 정렬되어 표시되는 실시간 목록 제공.
+    *   **기능:**
+        *   **실시간 업데이트:** Firestore의 실시간 리스너(`onSnapshot`)를 사용, 새로운 글이 등록되거나 기존 글이 수정/삭제될 때 별도의 새로고침 없이 화면에 즉시 반영.
+        *   **비밀번호 기반 수정/삭제:** 글 작성 시 설정한 4자리 비밀번호를 통해 본인만 글을 수정하거나 삭제할 수 있는 권한 관리 기능 구현.
+        *   모든 방명록 데이터는 `guestbook` 컬렉션에 안전하게 저장.
 
----
+## 3. 신랑/신부 데이터 확인 방법
 
-## **Change Request: Fix Image Gallery**
-
-The user has reported three issues with the photo gallery:
-1.  The slide images should be in a separate folder from the main hero image.
-2.  The image carousel/slider is not working (images don't change).
-3.  The UI for the previous/next slide buttons is broken and misplaced.
-
-## **Plan for Resolution**
-
-### **Step 1: Reorganize Image Directory**
-- Create a new directory `images/gallery`.
-- Move all gallery images (`UTK_1026-1sk.jpg`, `UTK_1855.jpg`, etc.) into the `images/gallery` folder.
-- Keep the main hero image (`UTK_1722-1sk.jpg`) in the root `images` folder.
-- Update the `src` paths in `index.html` to reflect this change.
-
-### **Step 2: Fix JavaScript for Gallery Carousel**
-- Read `main.js`.
-- Implement the logic for the "Previous" and "Next" buttons.
-- The logic will update a `currentIndex` variable and use `transform: translateX()` on the `.gallery-carousel` element to create the sliding effect.
-
-### **Step 3: Fix CSS for Gallery Buttons**
-- Read `style.css`.
-- Make the `.gallery-container` `position: relative`.
-- Style the `.prev-btn` and `.next-btn` with `position: absolute` to overlay them on the gallery.
-- Adjust the `top`, `left`, and `right` properties to vertically center them and place them on the sides of the gallery.
-- Add styling for background, color, and hover effects to make the buttons visually appealing and user-friendly.
-
+*   Firebase Console (console.firebase.google.com)에 로그인합니다.
+*   해당 프로젝트를 선택합니다.
+*   왼쪽 메뉴에서 `빌드` > `Firestore Database`로 이동합니다.
+*   `guestbook`과 `rsvps` 컬렉션을 클릭하여 하객들이 남긴 방명록과 참석 여부 응답을 실시간으로 확인할 수 있습니다.

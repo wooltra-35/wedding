@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Kakao SDK Init --- //
     if (window.Kakao && !window.Kakao.isInitialized()) {
-        // IMPORTANT: Replace with your actual Kakao App JavaScript Key
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
@@ -138,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: {
                     title: '상모와 유나의 결혼식에 초대합니다',
                     description: '2026년 8월 30일, 저희의 첫걸음을 함께 축복해주세요.',
-                    imageUrl: 'https://i.ibb.co/L8yC8f7/UTK-1722-1sk.png', // Main photo
+                    imageUrl: 'https://wooltra-35.github.io/wedding/thumnail.png', // Corrected Thumbnail
                     link: {
                         mobileWebUrl: window.location.href,
                         webUrl: window.location.href,

@@ -1,12 +1,11 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow anyone to read and write to the guestbook collection
+    // Allow anyone to read and write to the guestbook and rsvp collections
     match /guestbook/{entry} {
       allow read, write: if true;
     }
-     // Allow anyone to read and write to the rsvps collection
-    match /rsvps/{person} {
+    match /rsvp/{response} {
       allow read, write: if true;
     }
   }

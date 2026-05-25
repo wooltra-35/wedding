@@ -144,11 +144,11 @@ h4 { font-size: 1.1rem; }
 .accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: var(--footer-bg-color); padding: 0 10px;}
 .account-grid { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 15px 5px; }
 .account-item { display: flex; align-items: center; justify-content: space-between; background-color: #fff; padding: 12px 16px; border-radius: 8px; }
-.account-item p { font-size: 0.95rem; margin: 0; flex-grow: 1; text-align: left; margin-left: 12px; }
-.account-info { text-align: left; }
-.account-info .role { font-size: 0.9rem; color: #666; display: block;}
+.account-item p { font-size: 0.95rem; margin: 0; }
+.account-info { display: flex; align-items: baseline; }
+.account-info .role { font-size: 0.9rem; color: #666; margin-right: 0.5em; }
 .account-info .name { font-weight: 700; font-size: 1rem; }
-.account-item .copy-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 5px; color: var(--primary-color); flex-shrink: 0; }
+.copyable-account { cursor: pointer; }
 
 /* --- Contacts Section --- */
 .contact-container {

@@ -209,9 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Copy to Clipboard --- //
+    // --- Copy to Clipboard (NEW) --- //
     document.body.addEventListener('click', function(e) {
-        if (e.target.classList.contains('copy-btn')) {
+        if (e.target.classList.contains('copyable-account')) {
             const account = e.target.dataset.account;
             navigator.clipboard.writeText(account).then(() => {
                 alert('계좌번호가 복사되었습니다.');

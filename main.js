@@ -1,63 +1,84 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    // 1. D-Day 카운트다운
-    const dDayCounter = document.getElementById('d-day-counter');
-    if (dDayCounter) {
-        const weddingDate = new Date('2026-08-30T18:00:00');
+    // --- Initializations --- //
+    const weddingDate = new Date('2026-08-30T18:00:00');
+
+    // --- Functions --- //
+    function initCalendar() {
+        const calendarContainer = document.querySelector('.calendar');
+        if (!calendarContainer) return;
+
+        const year = weddingDate.getFullYear();
+        const month = weddingDate.getMonth();
         const today = new Date();
-        const diff = weddingDate.getTime() - today.getTime();
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startDayOfWeek = firstDay.getDay();
+
+        let html = `
+            <div class="calendar-header"><h3>${year}년 ${month + 1}월</h3></div>
+            <div class="calendar-grid">
+                <div class="day-name">일</div><div class="day-name">월</div><div class="day-name">화</div><div class="day-name">수</div><div class="day-name">목</div><div class="day-name">금</div><div class="day-name">토</div>
+        `;
+        for (let i = 0; i < startDayOfWeek; i++) { html += `<div class="day empty"></div>`; }
+        for (let day = 1; day <= daysInMonth; day++) {
+            let dayClass = 'day';
+            if (year === weddingDate.getFullYear() && month === weddingDate.getMonth() && day === weddingDate.getDate()) {
+                dayClass += ' wedding-day';
+            } else if (year === today.getFullYear() && month === today.getMonth() && day === today.getDate()) {
+                dayClass += ' today';
+            }
+            html += `<div class="${dayClass}">${day}</div>`;
+        }
+        html += '</div>';
+        calendarContainer.innerHTML = html;
+    }
+
+    function initDDay() {
+        const dDayContainer = document.querySelector('.d-day');
+        if (!dDayContainer) return;
+
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const weddingDay = new Date(weddingDate.getTime());
+        weddingDay.setHours(0, 0, 0, 0);
+        const diff = weddingDay.getTime() - today.getTime();
         const daysLeft = Math.ceil(diff / (1000 * 60 * 60 * 24));
 
         if (daysLeft > 0) {
-            dDayCounter.textContent = daysLeft;
+            dDayContainer.innerHTML = `<p><span class="name">상모</span> ❤️ <span class="name">유나</span>의 결혼식이 <strong style="color:var(--primary-color);">${daysLeft}</strong>일 남았습니다.</p>`;
         } else if (daysLeft === 0) {
-            dDayCounter.textContent = "오늘";
+            dDayContainer.innerHTML = `<p><span class="name">상모</span> ❤️ <span class="name">유나</span>의 결혼식, 바로 <strong style="color:var(--primary-color);">오늘</strong>입니다!</p>`;
         } else {
-            dDayCounter.closest('.d-day').textContent = "행복한 결혼생활 시작!";
+            dDayContainer.innerHTML = "<p>두 사람의 행복한 앞날을 축복해주세요.</p>";
         }
     }
 
-    // 2. 카카오맵
-    const mapContainer = document.getElementById('map'); 
-    if (mapContainer) {
-        const mapOption = { 
-            center: new kakao.maps.LatLng(37.4484, 127.0543), // 보넬리가든 (서초구 샘마루길 11) 좌표
-            level: 4 
-        };
-
-        const map = new kakao.maps.Map(mapContainer, mapOption); 
-
-        // 마커 생성
-        const markerPosition  = new kakao.maps.LatLng(37.4484, 127.0543); 
-        const marker = new kakao.maps.Marker({
-            position: markerPosition
-        });
-        marker.setMap(map);
-
-        // 인포윈도우 생성
-        const iwContent = '<div style="padding:5px;text-align:center;font-size:0.9rem;">보넬리가든<br><a href="https://map.kakao.com/link/map/보넬리가든,37.4484,127.0543" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/보넬리가든,37.4484,127.0543" style="color:blue" target="_blank">길찾기</a></div>';
-        const infowindow = new kakao.maps.InfoWindow({
-            content : iwContent, 
-            removable : true
-        });
-
-        kakao.maps.event.addListener(marker, 'click', function() {
-            infowindow.open(map, marker);
-        });
+    function initKakaoMap() {
+        const mapContainer = document.getElementById('map');
+        if (mapContainer && typeof kakao !== 'undefined' && kakao.maps) {
+            kakao.maps.load(() => {
+                const mapOption = {
+                    center: new kakao.maps.LatLng(37.4484, 127.0543),
+                    level: 4
+                };
+                const map = new kakao.maps.Map(mapContainer, mapOption);
+                const markerPosition = new kakao.maps.LatLng(37.4484, 127.0543);
+                const marker = new kakao.maps.Marker({ position: markerPosition });
+                marker.setMap(map);
+                const iwContent = '<div style="padding:5px;text-align:center;font-size:0.9rem;">보넬리가든<br><a href="https://map.kakao.com/link/map/보넬리가든,37.4484,127.0543" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/보넬리가든,37.4484,127.0543" style="color:blue" target="_blank">길찾기</a></div>';
+                const infowindow = new kakao.maps.InfoWindow({ content: iwContent, removable: true });
+                kakao.maps.event.addListener(marker, 'click', function () { infowindow.open(map, marker); });
+            });
+        }
     }
 
-    // 3. 길찾기 버튼
-    const navBtn = document.querySelector('.nav-btn');
-    if (navBtn) {
-        navBtn.addEventListener('click', () => {
-            window.open('https://map.kakao.com/link/to/보넬리가든,37.4484,127.0543');
-        });
-    }
+    function initGallery() {
+        const carousel = document.querySelector('.gallery-carousel');
+        if (!carousel) return;
 
-    // 4. 갤러리 캐러셀 기능
-    const carousel = document.querySelector('.gallery-carousel');
-    if (carousel) {
         const prevBtn = document.querySelector('.prev-btn');
         const nextBtn = document.querySelector('.next-btn');
         const images = carousel.querySelectorAll('img');
@@ -65,21 +86,71 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentIndex = 0;
 
         function updateCarousel() {
-            const offset = -currentIndex * 100;
-            carousel.style.transform = `translateX(${offset}%)`;
+            carousel.style.transform = `translateX(${-currentIndex * 100}%)`;
         }
 
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % imageCount;
-            updateCarousel();
-        });
-
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + imageCount) % imageCount;
-            updateCarousel();
-        });
+        if (imageCount > 1) {
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex + 1) % imageCount;
+                updateCarousel();
+            });
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex - 1 + imageCount) % imageCount;
+                updateCarousel();
+            });
+        } else {
+            if (prevBtn) prevBtn.style.display = 'none';
+            if (nextBtn) nextBtn.style.display = 'none';
+        }
     }
 
-    // 여기에 다른 기능들을 계속 추가할 예정입니다. 
+    function initShareAndCopy() {
+        const kakaoBtn = document.getElementById('share-kakao');
+        const copyBtn = document.getElementById('copy-link');
 
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    alert('청첩장 링크가 복사되었습니다!');
+                }).catch(err => {
+                    console.error('Could not copy text: ', err);
+                    alert('링크 복사에 실패했습니다.');
+                });
+            });
+        }
+
+        if (kakaoBtn && typeof Kakao !== 'undefined') {
+            if (!Kakao.isInitialized()) {
+                Kakao.init('4735caea5648d5df0a21861927141a31');
+            }
+            kakaoBtn.addEventListener('click', () => {
+                Kakao.Share.sendDefault({
+                    objectType: 'feed',
+                    content: {
+                        title: '상모와 유나의 결혼식에 초대합니다',
+                        description: '2026년 8월 30일, 보넬리가든에서 저희의 새로운 시작을 함께 축복해주세요.',
+                        imageUrl: 'https://github.com/eunbining/wedding-invitation/blob/main/images/UTK_1722-1sk.jpg?raw=true',
+                        link: { mobileWebUrl: window.location.href, webUrl: window.location.href },
+                    },
+                    buttons: [{ title: '청첩장 보기', link: { mobileWebUrl: window.location.href, webUrl: window.location.href }}],
+                });
+            });
+        }
+    }
+
+    // --- Event Listeners & Initial Function Calls --- //
+    initCalendar();
+    initDDay();
+    initKakaoMap();
+    initGallery();
+    
+    const kakaoScript = document.createElement('script');
+    kakaoScript.src = 'https://developers.kakao.com/sdk/js/kakao.min.js';
+    kakaoScript.onload = () => initShareAndCopy();
+    document.head.appendChild(kakaoScript);
+
+    const navBtn = document.querySelector('.nav-btn');
+    if (navBtn) {
+        navBtn.addEventListener('click', () => { window.open('https://map.kakao.com/link/to/보넬리가든,37.4484,127.0543'); });
+    }
 });

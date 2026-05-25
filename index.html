@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
     <title>상모와 유나의 결혼식에 초대합니다</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,19 +12,17 @@
 </head>
 <body>
     <div class="container">
-        <!-- 1. Hero Section -->
+        <!-- 1. Hero Section (UPDATED) -->
         <section id="hero" class="hero-section">
             <img src="images/UTK_1722-1sk.jpg" alt="결혼식 메인 이미지" class="main-photo">
             <div class="hero-text">
                 <h1>상모 & 유나</h1>
                 <p>2026년 8월 30일 일요일 오후 6시</p>
             </div>
-            <div class="scroll-indicator">
-                <span></span>
-            </div>
+            <!-- Scroll indicator removed -->
         </section>
 
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 2. Invitation Card -->
         <section id="invitation" class="invitation-section">
@@ -50,15 +48,30 @@
             </div>
         </section>
 
-        <div class="divider"></div>
+        <hr class="divider">
 
-        <!-- 3. Contacts Section -->
+        <!-- 3. Contacts Section (REDESIGNED) -->
         <section id="contacts" class="contacts-section">
-            <h3>신랑 & 신부에게 연락하기</h3>
-            <button class="contact-btn">연락처 보기</button>
+            <h2>신랑 & 신부에게 연락하기</h2>
+            <div class="contact-container">
+                <div class="contact-person">
+                    <h4>신랑 양상모</h4>
+                    <div class="btn-group">
+                        <a href="tel:010-9622-9696" class="icon-btn call">📞</a>
+                        <a href="sms:010-9622-9696" class="icon-btn sms">💬</a>
+                    </div>
+                </div>
+                <div class="contact-person">
+                    <h4>신부 이유나</h4>
+                    <div class="btn-group">
+                        <a href="tel:010-5673-2231" class="icon-btn call">📞</a>
+                        <a href="sms:010-5673-2231" class="icon-btn sms">💬</a>
+                    </div>
+                </div>
+            </div>
         </section>
         
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 4. Photo Gallery -->
         <section id="gallery" class="gallery-section">
@@ -75,20 +88,21 @@
             </div>
         </section>
 
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 5. Date & Countdown -->
         <section id="countdown" class="countdown-section">
-            <h2>결혼식까지 남은 시간</h2>
+            <h2>결혼식 일시</h2>
+            <p class="date-info">2026년 8월 30일 일요일 오후 6시</p>
             <div class="calendar">
-                <!-- Calendar will be generated here -->
+                <!-- 달력은 여기에 동적으로 생성됩니다 -->
             </div>
             <div class="d-day">
-                <p><span class="name">상모</span> ❤️ <span class="name">유나</span>의 결혼식이 <span id="d-day-counter"></span>일 남았습니다.</p>
+                <!-- 카운트다운 메시지는 여기에 동적으로 생성됩니다 -->
             </div>
         </section>
 
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 6. Location -->
         <section id="location" class="location-section">
@@ -104,7 +118,7 @@
             </div>
         </section>
 
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 7. Venue Info -->
         <section id="venue" class="venue-section">
@@ -112,7 +126,7 @@
             <!-- Venue info cards will be added here -->
         </section>
         
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 8. Bank Accounts -->
         <section id="bank" class="bank-section">
@@ -120,7 +134,7 @@
             <!-- Bank account accordions will be added here -->
         </section>
         
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 9. RSVP -->
         <section id="rsvp" class="rsvp-section">
@@ -128,7 +142,7 @@
             <button class="rsvp-btn">참석 의사 전달하기</button>
         </section>
 
-        <div class="divider"></div>
+        <hr class="divider">
 
         <!-- 10. Guestbook -->
         <section id="guestbook" class="guestbook-section">
@@ -142,6 +156,8 @@
             <button id="copy-link">청첩장 링크 복사</button>
         </footer>
     </div>
+
+    <!-- Contact Modal Removed -->
 
     <script src="main.js"></script>
     <!-- Kakao Maps SDK -->

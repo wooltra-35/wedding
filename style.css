@@ -1,8 +1,8 @@
 
 :root {
-    --bg-color: #FAF7F2; /* Warm Off-White */
-    --primary-color: #E1C5C5; /* Dusty Rose Pink */
-    --text-color: #5D5D5D; /* Soft Dark Gray */
+    --bg-color: #FAF7F2; 
+    --primary-color: #E1C5C5; /* A soft, elegant pink */
+    --text-color: #5D5D5D; 
     --hero-text-color: #FFFFFF;
     --font-main: 'Noto Sans KR', sans-serif;
     --font-accent: 'Gowun Batang', serif;
@@ -26,23 +26,23 @@ body {
 section {
     padding: 40px 20px;
     text-align: center;
-    border-bottom: 1px solid rgba(0,0,0,0.05);
 }
 
 h1, h2, h3 {
     font-family: var(--font-accent);
 }
 
-/* Hero Section */
+/* --- Hero Section (Scroll Indicator Removed) --- */
 .hero-section {
     position: relative;
     height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end; 
     align-items: center;
     color: var(--hero-text-color);
-    text-shadow: 0 0 15px rgba(0,0,0,0.5);
+    text-shadow: 0 0 15px rgba(0,0,0,0.6);
+    padding-bottom: 0;
 }
 
 .main-photo {
@@ -53,96 +53,36 @@ h1, h2, h3 {
     height: 100%;
     object-fit: cover;
     z-index: 1;
-    filter: brightness(0.8);
+    filter: brightness(0.75);
 }
 
 .hero-text {
     position: relative;
     z-index: 2;
+    padding-bottom: 100px; 
 }
 
-.hero-text h1 {
-    font-size: 3rem;
-    margin: 0;
-}
+.hero-text h1 { font-size: 2.8rem; margin: 0; }
+.hero-text p { font-size: 1.15rem; }
 
-.hero-text p {
-    font-size: 1.2rem;
-}
-
-.scroll-indicator {
-    position: absolute;
-    bottom: 30px;
-    width: 30px;
-    height: 50px;
-    border: 2px solid var(--hero-text-color);
-    border-radius: 25px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    animation: bounce 2s infinite;
-    z-index: 2;
-}
-
-.scroll-indicator span {
-    width: 4px;
-    height: 10px;
-    background-color: var(--hero-text-color);
-    border-radius: 2px;
-    margin-top: 8px;
-}
-
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-        transform: translateY(0);
-    }
-    40% {
-        transform: translateY(-20px);
-    }
-    60% {
-        transform: translateY(-10px);
-    }
-}
-
+/* --- Divider --- */
 .divider {
-    height: 10px;
-    width: 80%;
-    margin: 0 auto;
-    background-image: url('data:image/svg+xml;charset=utf8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 10"%3E%3Cpath d="M0 5 L100 5" stroke="%23E1C5C5" stroke-width="1" stroke-dasharray="2 2"/%3E%3C/svg%3E');
+    border: 0;
+    height: 1px;
+    width: 60%;
+    margin: 50px auto;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
 }
 
-/* Invitation Section */
-.invitation-section {
-    background-color: transparent;
-    padding: 50px 20px;
-}
+/* --- Invitation Section --- */
+.invitation-section { padding: 50px 20px; }
+.invitation-section .message { margin: 30px 0; font-size: 1.1em; line-height: 1.8; font-family: var(--font-accent); }
+.parents p { margin: 10px 0; line-height: 1.6; font-size: 1.05em; }
+.parents .name { font-weight: bold; }
+.parents .deceased { color: #b0b0b0; font-weight: normal; display: inline-block; margin-right: 4px; }
 
-.invitation-section .message {
-    margin: 30px 0;
-    font-size: 1.1em;
-    line-height: 1.8;
-    font-family: var(--font-accent);
-}
-
-.parents p {
-    margin: 10px 0;
-    line-height: 1.6;
-    font-size: 1.05em;
-}
-
-.parents .name {
-    font-weight: bold;
-}
-
-.parents .deceased {
-    color: #b0b0b0;
-    font-weight: normal;
-    display: inline-block;
-    margin-right: 4px;
-}
-
-/* Buttons */
-button {
+/* --- General Buttons --- */
+button, .button-like {
     background-color: var(--primary-color);
     color: var(--bg-color);
     border: none;
@@ -153,71 +93,99 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
 }
 
-button:hover {
+button:hover, .button-like:hover {
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* --- Gallery Section (Improved) --- */
-.gallery-container {
-    position: relative; /* Essential for button positioning */
-    width: 90%; /* Give it a bit of space on the sides */
-    max-width: 420px;
-    margin: 20px auto;
-    border-radius: 10px;
-    overflow: hidden; /* Hides the other images */
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
+/* --- Contacts Section (REDESIGNED) --- */
+.contacts-section h2 { margin-bottom: 30px; }
 
-.gallery-carousel {
+.contact-container {
     display: flex;
-    /* The transition is what makes the slide smooth */
-    transition: transform 0.5s ease-in-out;
-}
-
-.gallery-carousel img {
+    justify-content: space-around; /* Evenly space the two contacts */
+    align-items: center;
     width: 100%;
-    flex-shrink: 0; /* Prevents images from shrinking */
-    display: block; /* Removes any bottom space under the image */
+    max-width: 350px;
+    margin: 0 auto;
 }
 
-/* Buttons Styling */
-.prev-btn, .next-btn {
-    position: absolute; /* Positions the buttons over the gallery */
-    top: 50%;
-    transform: translateY(-50%); /* Vertically centers the buttons */
-    z-index: 10;
-    
-    /* Visuals */
-    background-color: rgba(0, 0, 0, 0.4);
-    color: white;
-    border: none;
-    border-radius: 50%; /* Makes them circular */
-    width: 44px; /* Slightly larger */
-    height: 44px;
-    font-size: 24px; /* Larger arrow */
-    line-height: 44px; /* Helps center the arrow icon */
+.contact-person {
     text-align: center;
-    cursor: pointer;
-    
-    /* Smooth transition for hover effects */
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.prev-btn:hover, .next-btn:hover {
-    background-color: rgba(0, 0, 0, 0.7); /* Darker on hover */
-    transform: translateY(-50%) scale(1.1); /* Slight zoom effect */
+.contact-person h4 {
+    margin: 0 0 15px;
+    font-size: 1.15em;
+    font-weight: 700;
+    font-family: var(--font-main);
 }
 
-/* Prev/Next Button Positioning */
-.prev-btn {
-    left: 15px; /* Position on the left */
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
 }
 
-.next-btn {
-    right: 15px; /* Position on the right */
+.icon-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 1.5rem; /* Emoji size */
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-/* All other sections will be styled as we build them */
+.icon-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 6px 15px rgba(225, 197, 197, 0.5); /* Shadow in primary color */
+}
+
+/* --- Calendar Section --- */
+.calendar { width: 90%; max-width: 400px; margin: 20px auto 30px; border: 1px solid #eee; border-radius: 10px; padding: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.calendar-header h3 { margin: 0 0 15px; color: var(--primary-color); font-size: 1.5em; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; }
+.day, .day-name { display: flex; justify-content: center; align-items: center; height: 35px; font-size: 0.9em; }
+.day-name { font-weight: bold; color: var(--text-color); }
+.day { border-radius: 50%; transition: background-color 0.2s; }
+.day.empty { background-color: transparent; }
+.day.today { background-color: #eaf6ff; color: #007bff; font-weight: bold; }
+.day.wedding-day { background-color: var(--primary-color); color: white; font-weight: bold; position: relative; }
+.day.wedding-day::after { content: '❤️'; position: absolute; top: -5px; right: -5px; font-size: 14px; }
+
+/* --- Gallery Section --- */
+.gallery-container { position: relative; width: 90%; max-width: 420px; aspect-ratio: 3 / 4; margin: 20px auto; border-radius: 10px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+.gallery-carousel { display: flex; height: 100%; transition: transform 0.5s ease-in-out; }
+.gallery-carousel img { width: 100%; height: 100%; flex-shrink: 0; object-fit: cover; display: block; }
+.prev-btn, .next-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; background: none; border: none; color: rgba(255, 255, 255, 0.8); font-size: 40px; font-weight: 100; padding: 0 15px; cursor: pointer; text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); transition: color 0.3s ease, transform 0.2s ease; }
+.prev-btn:hover, .next-btn:hover { color: white; transform: translateY(-50%) scale(1.1); }
+.prev-btn { left: 0; }
+.next-btn { right: 0; }
+
+/* --- Footer Section --- */
+.footer-section {
+    padding: 30px 20px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+#share-kakao, #copy-link {
+    width: 80%;
+    max-width: 300px;
+}
+
+/* --- Modal Styles Removed --- */
+

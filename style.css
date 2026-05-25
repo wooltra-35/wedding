@@ -151,9 +151,40 @@ h4 { font-size: 1.1rem; }
 .account-item .copy-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 5px; color: var(--primary-color); flex-shrink: 0; }
 
 /* --- Contacts Section --- */
-.contact-container { display: flex; justify-content: space-around; max-width: 300px; margin: 24px auto 0; }
-.contact-person h4 { margin-bottom: 12px; }
-.icon-btn { text-decoration: none; font-size: 2rem; margin: 0 10px; }
+.contact-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 100%;
+    margin: 24px auto 0;
+}
+.contact-person {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--footer-bg-color);
+    padding: 12px 20px;
+    border-radius: 10px;
+}
+.contact-person h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+.contact-person .btn-group {
+    display: flex;
+    align-items: center;
+}
+.icon-btn {
+    text-decoration: none;
+    font-size: 1.5rem; /* Reduced icon size */
+    margin: 0 0 0 15px; /* Margin between icons */
+    color: #444;
+    transition: color 0.2s;
+}
+.icon-btn:hover {
+    color: var(--primary-color);
+}
 
 /* --- RSVP Section --- */
 #open-rsvp-modal-btn { background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 14px 30px; font-size: 1.1rem; font-weight: 700; }

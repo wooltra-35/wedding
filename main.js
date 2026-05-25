@@ -522,43 +522,83 @@ document.addEventListener('DOMContentLoaded', () => {
       return p.innerHTML;
     }
 
-    // --- Petal Animation Logic (Upgraded) --- //
-    const petalContainer = document.getElementById('petal-container');
-    if (petalContainer) {
-        const petalColors = ['#FFDAB9', '#FFB6C1', '#F8C8DC', '#FFFFFF']; // Peach, LightPink, Pastel Pink, White
-        const animations = ['fall-1', 'fall-2', 'fall-3'];
+    // --- Petal Animation Logic (Canvas) ---
+    const canvas = document.getElementById('petal-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+        let particles = [];
 
-        const createPetal = () => {
-            const petal = document.createElement('div');
-            petal.className = 'petal';
+        const particleSettings = {
+            count: 150, // Number of petals
+            colors: ['rgba(255, 182, 193, 0.7)', 'rgba(248, 200, 220, 0.7)', 'rgba(255, 218, 185, 0.7)', 'rgba(255, 255, 255, 0.8)'],
+            minSize: 5,
+            maxSize: 12,
+            minSpeedY: 0.5,
+            maxSpeedY: 2,
+            minSpeedX: -0.5,
+            maxSpeedX: 0.5,
+        }
 
-            const anim = animations[Math.floor(Math.random() * animations.length)];
-            const duration = Math.random() * 8 + 7; // 7 to 15 seconds
-            const delay = Math.random() * 5;
+        class Particle {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height * 2 - height; // Start from above the screen
+                this.w = Math.random() * (particleSettings.maxSize - particleSettings.minSize) + particleSettings.minSize;
+                this.h = this.w * 0.8;
+                this.color = particleSettings.colors[Math.floor(Math.random() * particleSettings.colors.length)];
+                this.speedY = Math.random() * (particleSettings.maxSpeedY - particleSettings.minSpeedY) + particleSettings.minSpeedY;
+                this.speedX = Math.random() * (particleSettings.maxSpeedX - particleSettings.minSpeedX) + particleSettings.minSpeedX;
+                this.angle = Math.random() * 360;
+                this.spin = (Math.random() - 0.5) * 2;
+            }
 
-            petal.style.left = `${Math.random() * 100}vw`;
-            petal.style.backgroundColor = petalColors[Math.floor(Math.random() * petalColors.length)];
-            
-            // Vary size and initial rotation
-            const scale = Math.random() * 0.6 + 0.4; // scale between 0.4 and 1.0
-            const initialRotation = Math.random() * 360;
-            petal.style.transform = `scale(${scale}) rotate(${initialRotation}deg)`;
-            
-            petal.style.animationName = anim;
-            petal.style.animationDuration = `${duration}s`;
-            petal.style.animationDelay = `${delay}s`;
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.angle += this.spin;
+                if (this.y > height) {
+                    this.y = -this.h;
+                    this.x = Math.random() * width;
+                }
+            }
 
-            petalContainer.appendChild(petal);
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, this.w, this.h, 0, 0, 2 * Math.PI);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
 
-            // Remove the petal from the DOM after it has fallen
-            setTimeout(() => {
-                petal.remove();
-            }, (duration + delay) * 1000);
-        };
+        function init() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < particleSettings.count; i++) {
+                particles.push(new Particle());
+            }
+        }
 
-        // Create a continuous stream of petals
-        setInterval(createPetal, 700); // Add a new petal every 700ms
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        
+        window.addEventListener('resize', init);
+        init();
+        animate();
     }
+
 
     // --- Text Writing Animation --- //
     if (typeof anime !== 'undefined') {

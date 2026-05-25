@@ -121,9 +121,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.kakao && window.kakao.maps) {
         const mapContainer = document.getElementById('map');
         if (mapContainer) {
-            const mapOption = { center: new kakao.maps.LatLng(37.4615, 127.0402), level: 4 };
+            // Correct coordinates for Bonelli Garden and interactivity options
+            const venuePosition = new kakao.maps.LatLng(37.4475, 127.0519);
+            const mapOption = {
+                center: venuePosition,
+                level: 4,
+                draggable: false,
+                scrollwheel: false,
+                zoomable: false
+            };
             const map = new kakao.maps.Map(mapContainer, mapOption);
-            const marker = new kakao.maps.Marker({ position: new kakao.maps.LatLng(37.4615, 127.0402) });
+            const marker = new kakao.maps.Marker({ position: venuePosition });
             marker.setMap(map);
         }
     }

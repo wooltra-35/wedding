@@ -25,9 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (kakaoNaviBtn) {
       kakaoNaviBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const destination = '보넬리가든 주차장';
-        const parkingLotLat = 37.44686;
-        const parkingLotLng = 127.06798;
+        const destination = '서초과학화예비군훈련장 강동송파주차장';
+        const parkingLotLat = 37.447334;
+        const parkingLotLng = 127.070081;
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
         if (isMobile) {

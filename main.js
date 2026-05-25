@@ -60,56 +60,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Gallery Logic --- //
-    const carousel = document.querySelector('.gallery-carousel');
-    const prevBtn = document.querySelector('.prev-btn');
-    const nextBtn = document.querySelector('.next-btn');
-    const images = document.querySelectorAll('.gallery-carousel img');
-    let currentIndex = 0;
-    let touchStartX = 0;
-    let touchEndX = 0;
+    // --- NEW: Gallery Grid & Lightbox Logic --- //
+    const gridItems = document.querySelectorAll('.grid-item');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img');
+    const closeLightboxBtn = document.querySelector('.close-lightbox');
+    const prevSlideBtn = document.querySelector('.prev-slide');
+    const nextSlideBtn = document.querySelector('.next-slide');
 
-    function updateCarousel() {
-        if (!carousel) return;
-        const width = carousel.clientWidth;
-        carousel.style.transform = `translateX(${-width * currentIndex}px)`;
-    }
+    let currentImageIndex = 0;
+    const images = Array.from(gridItems).map(item => item.querySelector('img').src);
 
-    if(nextBtn && prevBtn) {
-        nextBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex + 1) % images.length;
-            updateCarousel();
+    if (gridItems.length > 0) {
+        gridItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentImageIndex = index;
+                openLightbox(images[currentImageIndex]);
+            });
         });
 
-        prevBtn.addEventListener('click', () => {
-            currentIndex = (currentIndex - 1 + images.length) % images.length;
-            updateCarousel();
+        const openLightbox = (src) => {
+            lightboxImg.src = src;
+            lightbox.style.display = 'flex';
+        };
+
+        const closeLightbox = () => {
+            lightbox.style.display = 'none';
+        };
+
+        const showNextImage = () => {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        };
+
+        const showPrevImage = () => {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentImageIndex];
+        };
+
+        closeLightboxBtn.addEventListener('click', closeLightbox);
+        prevSlideBtn.addEventListener('click', showPrevImage);
+        nextSlideBtn.addEventListener('click', showNextImage);
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) { // Click on background
+                closeLightbox();
+            }
+        });
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'ArrowRight') showNextImage();
+                if (e.key === 'ArrowLeft') showPrevImage();
+                if (e.key === 'Escape') closeLightbox();
+            }
+        });
+
+        // Swipe functionality for mobile
+        let touchStartX = 0;
+        lightbox.addEventListener('touchstart', e => touchStartX = e.changedTouches[0].screenX, {passive: true});
+        lightbox.addEventListener('touchend', e => {
+            if (e.changedTouches[0].screenX < touchStartX - 50) showNextImage();
+            if (e.changedTouches[0].screenX > touchStartX + 50) showPrevImage();
         });
     }
-
-    if (carousel) {
-        carousel.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-        });
-
-        carousel.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        });
-    }
-
-    function handleSwipe() {
-        if (touchEndX < touchStartX) { // Swiped left
-            nextBtn.click();
-        }
-        if (touchEndX > touchStartX) { // Swiped right
-            prevBtn.click();
-        }
-    }
-    
-    window.addEventListener('resize', updateCarousel);
-    if(images.length > 0) updateCarousel();
-
 
     // --- Calendar & D-Day --- //
     function createCalendar(year, month) {

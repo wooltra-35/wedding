@@ -65,14 +65,6 @@ h4 { font-size: 1.1rem; }
 .parents { margin: 30px 0; font-size: 1rem; line-height: 1.8; }
 .sign-off { margin-top: 30px; font-family: var(--font-serif); }
 
-/* --- Gallery Section --- */
-.gallery-container { position: relative; overflow: hidden; }
-.gallery-carousel { display: flex; transition: transform 0.5s ease-in-out; }
-.gallery-carousel img { width: 100%; flex-shrink: 0; object-fit: cover; aspect-ratio: 4 / 5; }
-.prev-btn, .next-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.6); border: none; font-size: 20px; cursor: pointer; border-radius: 50%; width: 44px; height: 44px; z-index: 10; }
-.prev-btn { left: 15px; }
-.next-btn { right: 15px; }
-
 /* --- Calendar & D-Day --- */
 .countdown-section .date-info { font-size: 1.2rem; font-weight: 500; margin-bottom: 30px; }
 .calendar { max-width: 380px; margin: 0 auto 30px; }
@@ -214,3 +206,80 @@ input[type="text"], input[type="password"], input[type="tel"] { width: 100%; pad
 #share-kakao { background-color: #FEE500; color: #191919; }
 #copy-link { background-color: var(--primary-color); color: white; }
 
+/* === NEW: Gallery Grid & Lightbox Styles === */
+
+/* 1. Grid Layout for Photos */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px; /* Spacing between photos */
+}
+
+.grid-item {
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 1 / 1; /* Make photos square */
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure image covers the area, cropping if necessary */
+    transition: opacity 0.3s ease;
+}
+
+.grid-item:hover img {
+    opacity: 0.8;
+}
+
+/* 2. Lightbox (Fullscreen Modal) */
+.lightbox {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 2000; /* Ensure it's on top of everything */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 80%;
+    display: block;
+    margin: auto;
+}
+
+/* 3. Lightbox Controls (Close, Prev, Next) */
+.close-lightbox, .prev-slide, .next-slide {
+    cursor: pointer;
+    position: absolute;
+    color: white;
+    font-size: 3rem;
+    user-select: none;
+    transition: 0.2s ease;
+}
+
+.close-lightbox:hover, .prev-slide:hover, .next-slide:hover {
+    opacity: 0.7;
+}
+
+.close-lightbox {
+    top: 20px;
+    right: 35px;
+    font-size: 4rem;
+}
+
+.prev-slide, .next-slide {
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 16px;
+}
+
+.prev-slide { left: 10px; }
+.next-slide { right: 10px; }

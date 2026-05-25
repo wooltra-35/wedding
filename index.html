@@ -45,17 +45,21 @@
         <!-- 3. Photo Gallery -->
         <section id="gallery" class="gallery-section">
             <h2>우리의 순간들</h2>
-            <div class="gallery-container">
-                <div class="gallery-carousel">
-                    <img src="images/gallery/UTK_1026-1sk.jpg" alt="갤러리 사진 1">
-                    <img src="images/gallery/UTK_1855.jpg" alt="갤러리 사진 2">
-                    <img src="images/gallery/UTK_2428-1.jpg" alt="갤러리 사진 3">
-                    <img src="images/gallery/UTK_2948-1sk.jpg" alt="갤러리 사진 4">
-                </div>
-                <button class="prev-btn">&#10094;</button>
-                <button class="next-btn">&#10095;</button>
+            <div class="photo-grid">
+                <div class="grid-item"><img src="images/gallery/UTK_1026-1sk.jpg" alt="갤러리 사진 1"></div>
+                <div class="grid-item"><img src="images/gallery/UTK_1855.jpg" alt="갤러리 사진 2"></div>
+                <div class="grid-item"><img src="images/gallery/UTK_2428-1.jpg" alt="갤러리 사진 3"></div>
+                <div class="grid-item"><img src="images/gallery/UTK_2948-1sk.jpg" alt="갤러리 사진 4"></div>
             </div>
         </section>
+
+        <!-- Lightbox for Fullscreen Image Viewing -->
+        <div id="lightbox" class="lightbox">
+            <span class="close-lightbox">&times;</span>
+            <img class="lightbox-content" id="lightbox-img">
+            <a class="prev-slide">&#10094;</a>
+            <a class="next-slide">&#10095;</a>
+        </div>
 
         <div class="divider"></div>
 

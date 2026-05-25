@@ -20,6 +20,35 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
+    // --- Navigation Buttons --- //
+    const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
+    if (kakaoNaviBtn) {
+      kakaoNaviBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const destination = '서초과학화예비군훈련장 강동송파';
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            window.open(`https://kakaonavi-wguide.kakao.com/navigate.html?name=${encodeURIComponent(destination)}&x=127.06733&y=37.44754`);
+        } else {
+            window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destination)},37.44754,127.06733`);
+        }
+      });
+    }
+
+    const tmapBtn = document.getElementById('tmap-btn');
+    if (tmapBtn) {
+        tmapBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const destination = '서초과학화예비군훈련장 강동송파';
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if(isMobile) {
+                window.open(`tmap://search?name=${encodeURIComponent(destination)}`);
+            } else {
+                window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destination)}`);
+            }
+        });
+    }
+
     // --- Gallery Logic --- //
     const carousel = document.querySelector('.gallery-carousel');
     const prevBtn = document.querySelector('.prev-btn');

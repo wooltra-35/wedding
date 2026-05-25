@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- RSVP Modal Logic (Using Formspree) --- //
+    // --- RSVP Modal Logic (Reverted to Firebase) --- //
     const rsvpModal = document.getElementById('rsvp-modal');
     const openRsvpBtn = document.getElementById('open-rsvp-modal-btn');
     if (rsvpModal) {
@@ -334,38 +334,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             rsvpForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const form = e.target;
-                const data = new FormData(form);
-                const action = form.action;
+                const submitBtn = rsvpForm.querySelector('#submit-rsvp-btn');
                 
-                fetch(action, {
-                    method: 'POST',
-                    body: data,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        alert('참석 의사를 전달해주셔서 감사합니다.');
-                        rsvpModal.style.display = 'none';
-                        form.reset();
-                        mealFieldset.style.display = 'block';
-                    } else {
-                        response.json().then(data => {
-                            if (Object.hasOwn(data, 'errors')) {
-                                alert(data["errors"].map(error => error["message"]).join(", "));
-                            } else {
-                                alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
-                            }
-                        });
-                    }
-                }).catch(error => {
+                const formData = {
+                    name: rsvpForm.elements.name.value,
+                    contact: rsvpForm.elements.contact.value,
+                    side: rsvpForm.elements.side.value,
+                    attendance: rsvpForm.elements.attendance.value,
+                    meal: rsvpForm.elements.attendance.value === 'attending' ? rsvpForm.elements.meal.value : 'N/A',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                if (!formData.name || !formData.contact) {
+                    alert('성함과 연락처를 모두 입력해주세요.');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = '전달 중...';
+
+                db.collection('rsvp').add(formData).then(() => {
+                    alert('참석 의사를 전달해주셔서 감사합니다.');
+                    rsvpModal.style.display = 'none';
+                    rsvpForm.reset();
+                    mealFieldset.style.display = 'block'; // Reset fieldset visibility
+                }).catch(err => {
+                    console.error("Error adding document: ", err);
                     alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+                }).finally(() => {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = '참석 의사 전달하기';
                 });
             });
         }
     }
-
 
     // --- Guestbook Logic (with Edit/Delete) --- //
     const guestbookForm = document.getElementById('guestbook-form');

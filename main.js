@@ -20,25 +20,27 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- Navigation Buttons --- //
+    // --- Navigation Buttons (v4 - Updated Coordinates) --- //
     const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
     if (kakaoNaviBtn) {
       kakaoNaviBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        const destination = '서초과학화예비군훈련장 강동송파';
+        const destination = '보넬리가든 주차장';
+        const parkingLotLat = 37.44686;
+        const parkingLotLng = 127.06798;
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        
+
         if (isMobile) {
-            if (window.Kakao && Kakao.isInitialized()) {
+            if (window.Kakao && window.Kakao.isInitialized()) {
                 Kakao.Navi.start({
                     name: destination,
-                    x: 127.06733,
-                    y: 37.44754,
+                    x: parkingLotLng,
+                    y: parkingLotLat,
                     coordType: 'wgs84'
                 });
             }
         } else {
-            window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destination)},37.44754,127.06733`);
+            window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destination)},${parkingLotLat},${parkingLotLng}`);
         }
       });
     }
@@ -50,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const destination = '서초과학화예비군훈련장 강동송파';
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if(isMobile) {
+                // T-map은 목적지 이름으로 검색하는 것이 가장 정확합니다.
                 window.open(`tmap://search?name=${encodeURIComponent(destination)}`);
             } else {
                 window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destination)}`);
@@ -207,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mapContainer = document.getElementById('map');
     if (mapContainer && window.kakao && window.kakao.maps && window.kakao.maps.services) {
         const geocoder = new kakao.maps.services.Geocoder();
-        const weddingAddress = '서울 서초구 샘마루길 11';
+        const weddingAddress = '서울 서초구 샘마루길 11'; // 지도는 예식장 위치를 표시
 
         geocoder.addressSearch(weddingAddress, function(result, status) {
             if (status === kakao.maps.services.Status.OK) {

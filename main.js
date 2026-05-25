@@ -55,6 +55,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 4. 갤러리 캐러셀 기능
+    const carousel = document.querySelector('.gallery-carousel');
+    if (carousel) {
+        const prevBtn = document.querySelector('.prev-btn');
+        const nextBtn = document.querySelector('.next-btn');
+        const images = carousel.querySelectorAll('img');
+        const imageCount = images.length;
+        let currentIndex = 0;
+
+        function updateCarousel() {
+            const offset = -currentIndex * 100;
+            carousel.style.transform = `translateX(${offset}%)`;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % imageCount;
+            updateCarousel();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + imageCount) % imageCount;
+            updateCarousel();
+        });
+    }
+
     // 여기에 다른 기능들을 계속 추가할 예정입니다. 
 
 });

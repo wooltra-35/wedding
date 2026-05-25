@@ -559,4 +559,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Create a continuous stream of petals
         setInterval(createPetal, 700); // Add a new petal every 700ms
     }
+
+    // --- Text Writing Animation --- //
+    if (typeof anime !== 'undefined') {
+        const textWrappers = document.querySelectorAll('.text-animation');
+        textWrappers.forEach((wrapper, index) => {
+            wrapper.innerHTML = wrapper.textContent.replace(/./g, "<span class='letter'>$&</span>");
+            anime.timeline({ loop: false })
+              .add({
+                targets: wrapper.querySelectorAll('.letter'),
+                opacity: [0, 1],
+                translateY: ["1.1em", 0],
+                rotateZ: [15, 0],
+                duration: 800,
+                easing: "easeOutExpo",
+                delay: (el, i) => 50 * i + (index * 500) // Stagger animation for multiple elements
+              });
+        });
+    }
 });

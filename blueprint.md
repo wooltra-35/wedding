@@ -1,94 +1,71 @@
 
-# 모바일 청첩장 제작 프로젝트
+# Blueprint: Wedding Invitation Website
 
-## 1. 프로젝트 개요
+## **Overview**
 
-본 프로젝트는 신랑과 신부의 결혼을 축하하고 하객들에게 예식 정보를 효과적으로 전달하기 위한 모바일 청첩장 웹사이트를 제작하는 것을 목표로 합니다. 사용자의 요구사항에 따라 현대적이고 세련된 디자인을 적용하며, 다양한 인터랙티브 기능을 포함하여 사용자 경험을 향상시킵니다.
+This project is a simple, elegant, and modern digital wedding invitation website. It is a single-page application built with HTML, CSS, and JavaScript, featuring a clean design, smooth animations, and interactive elements. The goal is to provide guests with all the necessary information in a beautiful and easily accessible format.
 
-## 2. 디자인 및 스타일 가이드
+---
 
-*   **레이아웃**: 최대 너비 480px의 중앙 정렬된 단일 페이지 레이아웃
-*   **폰트**:
-    *   메인: Noto Sans KR
-    *   포인트: Gowun Batang
-*   **색상 팔레트**:
-    *   배경: 다크 올리브 (`#474a37`)
-    *   포인트: 라임 그린 (`#d8e592`)
-    *   텍스트: 흰색 또는 연한 베이지
-*   **배경 패턴**: 라임색의 은은한 도트 패턴 반복
-*   **애니메이션**: 부드러운 페이드인, 스크롤 애니메이션, 바운스 효과 등을 적용하여 동적인 느낌을 줍니다.
-*   **컴포넌트 스타일**: shadcn/ui의 미니멀한 디자인 철학을 참고하여 모달, 버튼, 폼 요소 등을 디자인합니다.
+## **Project Structure & Design (As-Is)**
 
-## 3. 구현 기능 및 섹션 구성
+### **1. File Structure**
+```
+/
+|-- index.html        # Main HTML file
+|-- style.css         # CSS for styling
+|-- main.js           # JavaScript for interactivity
+|-- images/           # Folder for all images
+|   |-- UTK_1722-1sk.jpg (Main Photo)
+|   |-- UTK_1026-1sk.jpg (Gallery)
+|   |-- UTK_1855.jpg (Gallery)
+|   |-- UTK_2428-1.jpg (Gallery)
+|   |-- UTK_2948-1sk.jpg (Gallery)
+|-- firebase.json
+|-- package.json
+...
+```
 
-1.  **히어로 섹션**:
-    *   전체 화면을 덮는 커버 이미지 (`UTK_1722-1sk.jpg`)
-    *   하단 중앙에 바운스 애니메이션이 적용된 스크롤 유도 인디케이터
+### **2. Core Components & Features**
 
-2.  **초대장 카드**:
-    *   신랑, 신부 및 양가 부모님 성함 표시
-    *   초대 메시지 텍스트
-    *   별 장식 요소 포함
+*   **Hero Section:** A full-screen section with a main photo of the couple and the wedding date.
+*   **Invitation Card:** A formal invitation text from the couple and their parents.
+*   **Contact Information:** Buttons to easily call or message the bride and groom.
+*   **Photo Gallery:** A collection of photos. **(Currently broken)**
 
-3.  **연락처 섹션**:
-    *   '연락하기' 버튼 클릭 시 모달 팝업 표시
-    *   모달 내부에 신랑측/신부측 분리된 연락처 목록
-    *   각 인물별 전화, 문자 아이콘 버튼 (tel:, sms: 링크)
+### **3. Styling & Design**
 
-4.  **포토 갤러리**:
-    *   가로로 스크롤되는 캐러셀 형태
-    *   지정된 이미지 3장(`갤러리 1.jpg`, `갤러리 2.jpg`, `갤러리 3.jpg`) 사용
+*   **Fonts:** Uses `Gowun Batang` for headings and `Noto Sans KR` for body text for a classic and readable feel.
+*   **Layout:** A single-column, responsive layout centered in the viewport.
+*   **Color Scheme:** A simple and elegant color palette.
+*   **Dividers:** Simple line dividers separate each section.
 
-5.  **날짜 및 카운트다운**:
-    *   결혼식 날짜가 강조된 달력 위젯
-    *   `2026년 8월 30일 오후 6시`까지 남은 시간을 실시간으로 보여주는 D-Day 카운터
+---
 
-6.  **오시는 길**:
-    *   카카오맵 API를 이용한 임베드 지도
-    *   예식장 주소 및 대중교통, 주차 정보 안내
-    *   네이버/카카오 지도 앱으로 연결되는 '길찾기' 버튼
+## **Change Request: Fix Image Gallery**
 
-7.  **예식장 안내**:
-    *   안내 사항별 정보 카드 (3개)
-    *   각 카드에는 관련 사진과 설명 텍스트 포함
+The user has reported three issues with the photo gallery:
+1.  The slide images should be in a separate folder from the main hero image.
+2.  The image carousel/slider is not working (images don't change).
+3.  The UI for the previous/next slide buttons is broken and misplaced.
 
-8.  **축의금 계좌**:
-    *   신랑측/신부측 계좌 정보를 보여주는 아코디언 UI
-    *   '복사' 버튼 클릭 시 계좌번호 클립보드 복사 기능
+## **Plan for Resolution**
 
-9.  **참석 여부 (RSVP)**:
-    *   페이지 로드 2초 후 자동으로 나타나는 바텀시트 모달 (하루 한 번)
-    *   '참석 의사 전달하기' 버튼으로도 모달 열기 가능
-    *   신랑/신부측, 참석 여부, 인원, 식사 여부 등을 입력받는 폼
-    *   제출 시 Firebase 데이터베이스에 저장
+### **Step 1: Reorganize Image Directory**
+- Create a new directory `images/gallery`.
+- Move all gallery images (`UTK_1026-1sk.jpg`, `UTK_1855.jpg`, etc.) into the `images/gallery` folder.
+- Keep the main hero image (`UTK_1722-1sk.jpg`) in the root `images` folder.
+- Update the `src` paths in `index.html` to reflect this change.
 
-10. **축하 메시지 (방명록)**:
-    *   이름과 메시지를 입력하는 폼
-    *   제출된 메시지는 랜덤한 색상과 각도의 포스트잇 형태로 표시
-    *   Masonry 레이아웃을 사용하여 2열로 배치
-    *   Firebase 실시간 구독을 통해 새 메시지 즉시 반영
+### **Step 2: Fix JavaScript for Gallery Carousel**
+- Read `main.js`.
+- Implement the logic for the "Previous" and "Next" buttons.
+- The logic will update a `currentIndex` variable and use `transform: translateX()` on the `.gallery-carousel` element to create the sliding effect.
 
-11. **푸터**:
-    *   카카오톡 공유하기 기능
-    *   현재 페이지 링크 복사 기능
+### **Step 3: Fix CSS for Gallery Buttons**
+- Read `style.css`.
+- Make the `.gallery-container` `position: relative`.
+- Style the `.prev-btn` and `.next-btn` with `position: absolute` to overlay them on the gallery.
+- Adjust the `top`, `left`, and `right` properties to vertically center them and place them on the sides of the gallery.
+- Add styling for background, color, and hover effects to make the buttons visually appealing and user-friendly.
 
-## 4. 백엔드 (Firebase)**
-
-*   **Firestore 데이터베이스**:
-    *   `rsvp_submissions` 컬렉션: 참석 여부 응답 저장
-    *   `guestbook_messages` 컬렉션: 방명록 메시지 저장
-*   **Security Rules (RLS)**:
-    *   두 컬렉션 모두 모든 사용자가 읽고 쓸 수 있도록 초기 규칙 설정
-*   **Realtime Updates**:
-    *   방명록 섹션은 onSnapshot을 사용하여 실시간으로 데이터 변경 사항을 반영
-
-## 5. 작업 단계
-
-1.  **[완료]** `blueprint.md` 작성 및 프로젝트 계획 수립
-2.  **[진행중]** HTML, CSS, JS 파일 생성 및 기본 구조 설정
-3.  각 섹션별 HTML 마크업 및 기본 CSS 스타일링
-4.  JavaScript를 이용한 동적 기능 구현 (모달, 캐러셀, 카운트다운 등)
-5.  Firebase 프로젝트 설정 및 연동
-6.  RSVP 및 방명록 백엔드 기능 구현
-7.  디테일한 스타일링 및 애니메이션 적용
-8.  최종 테스트 및 배포

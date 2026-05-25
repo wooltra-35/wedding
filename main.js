@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
       messagingSenderId: "983704910868",
       appId: "1:983704910868:web:c33bfd76dc02dbc7d33b01"
     };
-    if (firebase.apps.length === 0) {
+    if (!firebase.apps.length) {
         firebase.initializeApp(firebaseConfig);
     }
     const db = firebase.firestore();
@@ -371,24 +371,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const guestbookForm = document.getElementById('guestbook-form');
     const guestbookEntries = document.getElementById('guestbook-entries');
 
+    const formatTimestamp = (timestamp) => {
+        if (!timestamp) return '';
+        const date = timestamp.toDate();
+        const yy = date.getFullYear().toString().slice(-2);
+        const mm = (date.getMonth() + 1).toString().padStart(2, '0');
+        const dd = date.getDate().toString().padStart(2, '0');
+        const hh = date.getHours().toString().padStart(2, '0');
+        const min = date.getMinutes().toString().padStart(2, '0');
+        return `${yy}. ${mm}. ${dd} ${hh}:${min}`;
+    };
+
     // Render single entry
     const renderGuestbookEntry = (doc) => {
         const entry = doc.data();
         const entryDiv = document.createElement('div');
         entryDiv.className = 'guestbook-entry';
         entryDiv.setAttribute('data-id', doc.id);
-        const entryDate = entry.timestamp ? entry.timestamp.toDate().toLocaleDateString('ko-KR') : '';
+        const entryDate = formatTimestamp(entry.timestamp);
 
         entryDiv.innerHTML = `
+            <div class="entry-actions">
+                <button class="edit-btn">수정</button>
+                <button class="delete-btn">삭제</button>
+            </div>
             <div class="entry-header">
                 <strong class="entry-name">${escapeHTML(entry.name)}</strong>
                 <span class="entry-date">${entryDate}</span>
             </div>
             <p class="entry-message">${escapeHTML(entry.message)}</p>
-            <div class="entry-actions">
-                <button class="edit-btn">수정</button>
-                <button class="delete-btn">삭제</button>
-            </div>
         `;
         return entryDiv;
     };
@@ -407,6 +418,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (guestbookForm) {
         guestbookForm.addEventListener('submit', (e) => {
             e.preventDefault();
+            const submitBtn = guestbookForm.querySelector('#submit-guestbook');
             const nameInput = guestbookForm.querySelector('#guestbook-name');
             const passwordInput = guestbookForm.querySelector('#guestbook-password');
             const messageInput = guestbookForm.querySelector('#guestbook-message');
@@ -420,6 +432,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  return;
             }
 
+            submitBtn.disabled = true;
+            submitBtn.textContent = '등록 중...';
+
             db.collection('guestbook').add({
                 name: nameInput.value,
                 password: passwordInput.value, // In a real app, hash this!
@@ -430,6 +445,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }).catch(err => {
                 console.error("Error adding document: ", err);
                 alert('메시지 등록 중 오류가 발생했습니다.');
+            }).finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '남기기';
             });
         });
     }
@@ -450,10 +468,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const checkPasswordAndExecute = (id, callback) => {
+        const masterPassword = '3535';
         const password = prompt('글 작성 시 입력했던 비밀번호 4자리를 입력하세요.');
         if (password) {
             db.collection('guestbook').doc(id).get().then(doc => {
-                if (doc.exists && doc.data().password === password) {
+                if (!doc.exists) {
+                    alert('해당 메시지를 찾을 수 없습니다.');
+                    return;
+                }
+                // Check for master password OR original password
+                if (password === masterPassword || doc.data().password === password) {
                     callback(doc);
                 } else {
                     alert('비밀번호가 일치하지 않습니다.');

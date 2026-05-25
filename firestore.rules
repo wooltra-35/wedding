@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow anyone to read and write to the guestbook collection
+    match /guestbook/{entry} {
+      allow read, write: if true;
+    }
+     // Allow anyone to read and write to the rsvps collection
+    match /rsvps/{person} {
+      allow read, write: if true;
+    }
+  }
+}

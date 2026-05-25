@@ -23,20 +23,17 @@ body {
     font-size: 16px; 
 }
 
-/* Force form elements to inherit font styles */
 button, input, textarea, select {
-    font-family: inherit; /* Inherit font from body */
-    font-size: 1rem;      /* Use rem unit for scalability */
+    font-family: inherit;
+    font-size: 1rem;
     color: inherit;
 }
 
-/* Unify placeholder styles */
 input::placeholder, textarea::placeholder {
     font-family: var(--font-sans);
     color: #aaa;
-    font-size: 0.95rem; /* Slightly smaller than input text */
+    font-size: 0.95rem;
 }
-
 
 .container {
     max-width: 480px;
@@ -75,7 +72,7 @@ h4 { font-size: 1.1rem; }
 .calendar td.wedding-day span { position: relative; z-index: 2; color: white; }
 .d-day { font-size: 1.1rem; }
 
-/* --- Location Section (Font styles restored) --- */
+/* --- Location Section --- */
 #map { height: 300px; width: 100%; margin: 24px 0; border-radius: 12px; border: 1px solid var(--divider-color); }
 .address-main { font-size: 1.1rem; font-weight: 500; }
 .transport-info { text-align: left; padding: 20px; border-radius: 10px; background-color: var(--footer-bg-color); }
@@ -83,104 +80,80 @@ h4 { font-size: 1.1rem; }
 .transport-method p { margin: 6px 0; line-height: 1.6; }
 .transport-info .highlight { color: var(--primary-color); font-weight: bold; }
 .transport-info strong { font-weight: 700; color: #555; }
+.navi-buttons { display: flex; justify-content: center; gap: 15px; margin: 20px 0; }
+.navi-btn { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; color: #333; background-color: #F5F5F5; border-radius: 25px; padding: 10px 20px; font-weight: 500; transition: background-color 0.2s; box-shadow: 0 2px 4px rgba(0,0,0,0.08); }
+.navi-btn:hover { background-color: #E0E0E0; }
+.navi-btn img { width: 24px; height: 24px; margin-right: 8px; }
 
-.navi-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
-}
-
-.navi-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    color: #333;
-    background-color: #F5F5F5;
-    border-radius: 25px;
-    padding: 10px 20px;
-    font-weight: 500;
-    transition: background-color 0.2s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-}
-
-.navi-btn:hover {
-    background-color: #E0E0E0;
-}
-
-.navi-btn img {
-    width: 24px;
-    height: 24px;
-    margin-right: 8px;
-}
-
-/* --- Guestbook Section (Spacing Fixed) --- */
+/* --- Guestbook Section --- */
 #guestbook-form .form-group { display: flex; gap: 10px; margin-bottom: 10px; }
 #guestbook-form textarea { width: 100%; padding: 12px; border: 1px solid var(--divider-color); border-radius: 8px; box-sizing: border-box; resize: vertical; min-height: 80px; margin-bottom: 10px;}
 #submit-guestbook { width: 100%; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 14px; font-size: 1.1rem; font-weight: 700; }
 #guestbook-entries { margin-top: 30px; text-align: left; max-height: 400px; overflow-y: auto; padding-right: 10px; }
-.guestbook-entry { background-color: var(--footer-bg-color); border-radius: 8px; padding: 16px; margin-bottom: 12px; }
-.entry-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-.entry-message { margin: 0 0 12px; word-break: break-word; }
-.entry-actions { text-align: right; }
-.entry-actions button { background: none; border: none; color: #999; cursor: pointer; font-size: 0.9rem; margin-left: 8px; }
 
+.guestbook-entry {
+    position: relative; /* Positioning context for buttons */
+    background-color: var(--footer-bg-color);
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.entry-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.entry-name { font-weight: 700; }
+
+.entry-date {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.entry-message {
+    margin: 0;
+    padding-top: 8px;
+    word-break: break-word;
+}
+
+.entry-actions {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+}
+
+.entry-actions button {
+    background: none;
+    border: none;
+    color: #999;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-left: 8px;
+    padding: 2px 4px;
+}
+.entry-actions button:hover { color: #333; }
 
 /* --- Bank Accounts Section (Accordion) --- */
-.accordion-container {} 
 .accordion { border: 1px solid var(--divider-color); border-radius: 10px; margin-bottom: 10px; overflow: hidden;}
 .accordion-header { padding: 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 700; }
 .accordion-icon { font-size: 1.5rem; transition: transform 0.3s; }
 .accordion-header.active .accordion-icon { transform: rotate(45deg); }
-
 .accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: var(--footer-bg-color); padding: 0 10px;}
-
-.account-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 15px 5px;
-}
-.account-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 12px 16px;
-    border-radius: 8px;
-}
-
-.account-item p {
-    font-size: 0.95rem; /* Slightly smaller font for account number */
-    margin: 0;
-    flex-grow: 1;
-    text-align: left;
-    margin-left: 12px;
-}
-
+.account-grid { display: grid; grid-template-columns: 1fr; gap: 10px; padding: 15px 5px; }
+.account-item { display: flex; align-items: center; justify-content: space-between; background-color: #fff; padding: 12px 16px; border-radius: 8px; }
+.account-item p { font-size: 0.95rem; margin: 0; flex-grow: 1; text-align: left; margin-left: 12px; }
 .account-info { text-align: left; }
 .account-info .role { font-size: 0.9rem; color: #666; display: block;}
 .account-info .name { font-weight: 700; font-size: 1rem; }
-.bank-details { display: none; } /* Hide bank details initially */
+.account-item .copy-btn { background: none; border: none; font-size: 1.5rem; cursor: pointer; padding: 5px; color: var(--primary-color); flex-shrink: 0; }
 
-.account-item .copy-btn {
-    background: none;
-    border: none;
-    font-size: 1.5rem; /* Icon size */
-    cursor: pointer;
-    padding: 5px;
-    color: var(--primary-color);
-    flex-shrink: 0; /* Prevent button from shrinking */
-}
-
-/* --- Contacts Section (Styles Restored) --- */
+/* --- Contacts Section --- */
 .contact-container { display: flex; justify-content: space-around; max-width: 300px; margin: 24px auto 0; }
 .contact-person h4 { margin-bottom: 12px; }
 .icon-btn { text-decoration: none; font-size: 2rem; margin: 0 10px; }
-.icon-btn.call { color: #55acee; }
-.icon-btn.sms { color: #78c850; }
-
 
 /* --- RSVP Section --- */
 #open-rsvp-modal-btn { background-color: var(--primary-color); color: white; border: none; border-radius: 8px; padding: 14px 30px; font-size: 1.1rem; font-weight: 700; }
@@ -206,80 +179,16 @@ input[type="text"], input[type="password"], input[type="tel"] { width: 100%; pad
 #share-kakao { background-color: #FEE500; color: #191919; }
 #copy-link { background-color: var(--primary-color); color: white; }
 
-/* === NEW: Gallery Grid & Lightbox Styles === */
-
-/* 1. Grid Layout for Photos */
-.photo-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 8px; /* Spacing between photos */
-}
-
-.grid-item {
-    overflow: hidden;
-    cursor: pointer;
-    aspect-ratio: 1 / 1; /* Make photos square */
-    border-radius: 8px;
-    transition: transform 0.3s ease;
-}
-
-.grid-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Ensure image covers the area, cropping if necessary */
-    transition: opacity 0.3s ease;
-}
-
-.grid-item:hover img {
-    opacity: 0.8;
-}
-
-/* 2. Lightbox (Fullscreen Modal) */
-.lightbox {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 2000; /* Ensure it's on top of everything */
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    justify-content: center;
-    align-items: center;
-}
-
-.lightbox-content {
-    max-width: 90%;
-    max-height: 80%;
-    display: block;
-    margin: auto;
-}
-
-/* 3. Lightbox Controls (Close, Prev, Next) */
-.close-lightbox, .prev-slide, .next-slide {
-    cursor: pointer;
-    position: absolute;
-    color: white;
-    font-size: 3rem;
-    user-select: none;
-    transition: 0.2s ease;
-}
-
-.close-lightbox:hover, .prev-slide:hover, .next-slide:hover {
-    opacity: 0.7;
-}
-
-.close-lightbox {
-    top: 20px;
-    right: 35px;
-    font-size: 4rem;
-}
-
-.prev-slide, .next-slide {
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 16px;
-}
-
+/* === Gallery Grid & Lightbox Styles === */
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.grid-item { overflow: hidden; cursor: pointer; aspect-ratio: 1 / 1; border-radius: 8px; transition: transform 0.3s ease; }
+.grid-item img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s ease; }
+.grid-item:hover img { opacity: 0.8; }
+.lightbox { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; }
+.lightbox-content { max-width: 90%; max-height: 80%; display: block; margin: auto; }
+.close-lightbox, .prev-slide, .next-slide { cursor: pointer; position: absolute; color: white; font-size: 3rem; user-select: none; transition: 0.2s ease; }
+.close-lightbox:hover, .prev-slide:hover, .next-slide:hover { opacity: 0.7; }
+.close-lightbox { top: 20px; right: 35px; font-size: 4rem; }
+.prev-slide, .next-slide { top: 50%; transform: translateY(-50%); padding: 16px; }
 .prev-slide { left: 10px; }
 .next-slide { right: 10px; }

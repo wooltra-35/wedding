@@ -531,8 +531,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let particles = [];
 
         const particleSettings = {
-            count: 40, // Number of petals - REDUCED
-            colors: ['rgba(255, 182, 193, 0.7)', 'rgba(248, 200, 220, 0.7)', 'rgba(255, 218, 185, 0.7)', 'rgba(255, 255, 255, 0.8)'],
+            count: 20, // Number of petals - REDUCED
+            colors: ['rgba(255, 182, 193, 0.7)', 'rgba(248, 200, 220, 0.7)', 'rgba(255, 218, 185, 0.7)', 'rgba(254, 250, 224, 0.8)'], // White changed to light yellow
             minSize: 5,
             maxSize: 12,
             minSpeedY: 0.5,

@@ -8,24 +8,22 @@
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Gowun+Batang&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <!-- 1. Hero Section -->
         <section id="hero" class="hero-section">
-            <img src="images/UTK_1722-1sk.jpg" alt="결혼식 메인 이미지" class="main-photo">
+            <img src="images/UTK_1722-1sk.png" alt="상모와 유나의 웨딩 사진" class="main-photo">
             <div class="hero-text">
-                <h1>상모 & 유나</h1>
+                <h1>Sangmo & Yuna</h1>
                 <p>2026년 8월 30일 일요일 오후 6시</p>
             </div>
         </section>
 
-        <hr class="divider">
-
-        <!-- 2. Invitation Card -->
+        <!-- 2. Invitation -->
         <section id="invitation" class="invitation-section">
-            <h2>We invite you to our wedding day</h2>
+            <h2 class="script-title">We invite you to our wedding day</h2>
             <div class="parents">
                 <p>
                     <span class="name">양태용</span> · <span class="deceased">(故)</span><span class="name">정봉임</span>의 차남 <span class="name">양상모</span>
@@ -45,32 +43,9 @@
             </div>
         </section>
 
-        <hr class="divider">
+        <div class="divider"></div>
 
-        <!-- 3. Contacts Section -->
-        <section id="contacts" class="contacts-section">
-            <h2>신랑 & 신부에게 연락하기</h2>
-            <div class="contact-container">
-                <div class="contact-person">
-                    <h4>신랑 양상모</h4>
-                    <div class="btn-group">
-                        <a href="tel:010-9622-9696" class="icon-btn call">📞</a>
-                        <a href="sms:010-9622-9696" class="icon-btn sms">💬</a>
-                    </div>
-                </div>
-                <div class="contact-person">
-                    <h4>신부 이유나</h4>
-                    <div class="btn-group">
-                        <a href="tel:010-5673-2231" class="icon-btn call">📞</a>
-                        <a href="sms:010-5673-2231" class="icon-btn sms">💬</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <hr class="divider">
-
-        <!-- 4. Photo Gallery -->
+        <!-- 3. Photo Gallery -->
         <section id="gallery" class="gallery-section">
             <h2>우리의 순간들</h2>
             <div class="gallery-container">
@@ -85,9 +60,9 @@
             </div>
         </section>
 
-        <hr class="divider">
+        <div class="divider"></div>
 
-        <!-- 5. Date & Countdown -->
+        <!-- 4. Date & Countdown -->
         <section id="countdown" class="countdown-section">
             <h2>결혼식 일시</h2>
             <p class="date-info">2026년 8월 30일 일요일 오후 6시</p>
@@ -95,14 +70,14 @@
             <div class="d-day"></div>
         </section>
 
-        <hr class="divider">
+        <div class="divider"></div>
 
-        <!-- 6. Location (UPDATED) -->
+        <!-- 5. Location -->
         <section id="location" class="location-section">
             <h2>오시는 길</h2>
             <p class="address-main"><strong>주소</strong><br>서울특별시 서초구 샘마루길 11 보넬리가든</p>
-            <div id="map" style="width:100%;height:300px; margin-top:20px;"></div>
-            <button class="nav-btn" style="margin-top:20px;">길찾기</button>
+            <div id="map"></div>
+            <button class="nav-btn">길찾기</button>
             <div class="transport-info">
                 <div class="transport-method">
                     <h4>대중교통</h4>
@@ -121,9 +96,9 @@
             </div>
         </section>
 
-        <hr class="divider">
+        <div class="divider"></div>
 
-        <!-- 8. Bank Accounts -->
+        <!-- 6. Bank Accounts -->
         <section id="bank" class="bank-section">
             <h2>마음 전하실 곳</h2>
             <p class="account-message">
@@ -132,7 +107,7 @@
                 너그러운 마음으로 양해 부탁드립니다.
             </p>
             <div class="accordion-container">
-                <div class="accordion">
+                 <div class="accordion">
                     <div class="accordion-header" role="button" tabindex="0">
                         <span>신랑 양상모 측 계좌번호</span>
                         <span class="accordion-icon">+</span>
@@ -161,18 +136,41 @@
             </div>
         </section>
 
-        <hr class="divider">
+        <div class="divider"></div>
 
-        <!-- Other sections will follow -->
+        <!-- 7. Contacts Section -->
+        <section id="contacts" class="contacts-section">
+            <h2>신랑 & 신부에게 연락하기</h2>
+            <div class="contact-container">
+                <div class="contact-person">
+                    <h4>신랑 양상모</h4>
+                    <div class="btn-group">
+                        <a href="tel:010-9622-9696" class="icon-btn call">📞</a>
+                        <a href="sms:010-9622-9696" class="icon-btn sms">💬</a>
+                    </div>
+                </div>
+                <div class="contact-person">
+                    <h4>신부 이유나</h4>
+                    <div class="btn-group">
+                        <a href="tel:010-5673-2231" class="icon-btn call">📞</a>
+                        <a href="sms:010-5673-2231" class="icon-btn sms">💬</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        <!-- 11. Footer -->
+        <!-- Footer -->
         <footer class="footer-section">
             <button id="share-kakao">카카오톡으로 공유하기</button>
             <button id="copy-link">청첩장 링크 복사</button>
         </footer>
     </div>
 
-    <script src="main.js"></script>
+    <!-- Kakao SDKs -->
+    <script src="https://developers.kakao.com/sdk/js/kakao.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4735caea5648d5df0a21861927141a31&libraries=services"></script>
+    
+    <!-- Main App Script -->
+    <script src="main.js"></script>
 </body>
 </html>

@@ -49,12 +49,53 @@ h2, h3, h4 { font-weight: 700; margin: 0 0 24px 0; color: #444; }
 h2 { font-size: 1.5rem; }
 h4 { font-size: 1.1rem; }
 
-/* --- Hero Section --- */
-.hero-section { position: relative; padding: 0; }
-.main-photo { width: 100%; height: auto; display: block; filter: brightness(0.6); }
-.hero-text { position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%); width: 100%; color: white; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7); }
-.hero-text h1 { font-family: var(--font-script); font-size: 2.9rem; font-weight: 700; margin: 0 0 10px 0; }
-.hero-text p { font-size: 1.15rem; margin: 0; }
+/* --- Hero Section (Overlay Method) --- */
+.hero-section {
+    position: relative;
+    padding: 0;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.25); /* Overlay color */
+    z-index: 1;
+}
+
+.main-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* filter property removed */
+}
+
+.hero-text {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    color: white;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7); /* Adjusted shadow for readability */
+    z-index: 2; /* Ensure text is above the overlay */
+}
+
+.hero-text h1 {
+    font-family: var(--font-script);
+    font-size: 2.9rem;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.hero-text p {
+    font-size: 1.15rem;
+    margin: 0;
+}
+
 
 /* --- Invitation Section --- */
 .script-title { font-family: var(--font-script); font-size: 2.2rem; font-weight: 700; color: var(--primary-color); margin-bottom: 30px; }
@@ -240,7 +281,7 @@ input[type="text"], input[type="password"], input[type="tel"] { width: 100%; pad
 .lightbox { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; }
 .lightbox-content { max-width: 90%; max-height: 80%; display: block; margin: auto; }
 .close-lightbox, .prev-slide, .next-slide { cursor: pointer; position: absolute; color: white; font-size: 3rem; user-select: none; transition: 0.2s ease; }
-.close-lightbox:hover, .prev-slide:hover, .next-slide:hover { opacity: 0.7; }
+.close-lightbox:hover, .prev-slide, .next-slide:hover { opacity: 0.7; }
 .close-lightbox { top: 20px; right: 35px; font-size: 4rem; }
 .prev-slide, .next-slide { top: 50%; transform: translateY(-50%); padding: 16px; }
 .prev-slide { left: 10px; }

@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let particles = [];
 
         const particleSettings = {
-            count: 150, // Number of petals
+            count: 40, // Number of petals - REDUCED
             colors: ['rgba(255, 182, 193, 0.7)', 'rgba(248, 200, 220, 0.7)', 'rgba(255, 218, 185, 0.7)', 'rgba(255, 255, 255, 0.8)'],
             minSize: 5,
             maxSize: 12,
@@ -550,15 +550,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.color = particleSettings.colors[Math.floor(Math.random() * particleSettings.colors.length)];
                 this.speedY = Math.random() * (particleSettings.maxSpeedY - particleSettings.minSpeedY) + particleSettings.minSpeedY;
                 this.speedX = Math.random() * (particleSettings.maxSpeedX - particleSettings.minSpeedX) + particleSettings.minSpeedX;
+                
+                // Enhanced rotation for 3D effect
                 this.angle = Math.random() * 360;
-                this.spin = (Math.random() - 0.5) * 2;
+                this.spin = (Math.random() - 0.5) * 3; // Base rotation speed
+                this.oscillation = Math.random() * 2 * Math.PI; // Initial phase for tumble
+                this.oscillationSpeed = (Math.random() - 0.5) * 0.1; // Tumble speed
             }
 
             update() {
                 this.y += this.speedY;
                 this.x += this.speedX;
                 this.angle += this.spin;
-                if (this.y > height) {
+                this.oscillation += this.oscillationSpeed;
+
+                // Reset particle when it goes off screen
+                if (this.y > height + this.h * 2) { // Added buffer
                     this.y = -this.h;
                     this.x = Math.random() * width;
                 }
@@ -568,6 +575,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.angle * Math.PI / 180);
+                
+                // Apply tumbling effect by scaling the horizontal axis
+                const scaleX = Math.sin(this.oscillation);
+                ctx.scale(scaleX, 1);
+
                 ctx.fillStyle = this.color;
                 ctx.beginPath();
                 ctx.ellipse(0, 0, this.w, this.h, 0, 0, 2 * Math.PI);

@@ -168,26 +168,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Kakao Map Logic --- //
     const mapContainer = document.getElementById('map');
-    if (mapContainer && window.kakao && window.kakao.maps) {
-        const mapOption = {
-            center: new kakao.maps.LatLng(37.4474, 127.0543), // 보넬리가든 위치
-            level: 4
-        };
-        const map = new kakao.maps.Map(mapContainer, mapOption);
-        const markerPosition = new kakao.maps.LatLng(37.4474, 127.0543);
-        const marker = new kakao.maps.Marker({
-            position: markerPosition
+    if (mapContainer && window.kakao && window.kakao.maps && window.kakao.maps.services) {
+        const geocoder = new kakao.maps.services.Geocoder();
+        const weddingAddress = '서울 서초구 샘마루길 11';
+
+        geocoder.addressSearch(weddingAddress, function(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+
+                const mapOption = {
+                    center: coords,
+                    level: 4
+                };
+                const map = new kakao.maps.Map(mapContainer, mapOption);
+
+                const marker = new kakao.maps.Marker({
+                    map: map,
+                    position: coords
+                });
+
+                const infowindow = new kakao.maps.InfoWindow({
+                    content: '<div style="width:150px;text-align:center;padding:6px 0;">보넬리가든</div>'
+                });
+                infowindow.open(map, marker);
+                
+                const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if(isMobile) {
+                    mapContainer.addEventListener('click', function() {
+                        window.open('https://map.kakao.com/?urlX=515725.0000000028&urlY=1098990&urlLevel=3&itemId=1911712146&q=%EB%B3%B4%EB%84%AC%EB%A6%AC%EA%B0%80%EB%93%A0&srcid=1911712146&map_type=TYPE_MAP');
+                    });
+                    map.setDraggable(false);
+                    map.setZoomable(false);
+                } 
+            } else {
+                console.error('Geocoder failed due to: ' + status);
+            }
         });
-        marker.setMap(map);
-        
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if(isMobile) {
-            mapContainer.addEventListener('click', function() {
-                 window.location.href = 'https://map.kakao.com/link/to/보넬리가든,37.4474,127.0543';
-            });
-            map.setDraggable(false);
-            map.setZoomable(false);
-        }
     }
 
     // --- Share Logic --- //

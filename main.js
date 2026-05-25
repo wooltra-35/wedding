@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- RSVP Modal Logic --- //
+    // --- RSVP Modal Logic (Using Formspree) --- //
     const rsvpModal = document.getElementById('rsvp-modal');
     const openRsvpBtn = document.getElementById('open-rsvp-modal-btn');
     if (rsvpModal) {
@@ -332,33 +332,36 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
 
-            rsvpForm.addEventListener('submit', (e) => {
+            rsvpForm.addEventListener('submit', function(e) {
                 e.preventDefault();
-                const contact = rsvpForm.querySelector('#rsvp-contact').value.replace(/\D/g, '');
-                if (!contact || contact.length < 10) {
-                    alert('올바른 연락처를 입력해주세요. (\'-\' 제외)');
-                    return;
-                }
-
-                const formData = {
-                    name: rsvpForm.querySelector('#rsvp-name').value,
-                    side: rsvpForm.elements['side'].value,
-                    attendance: rsvpForm.elements['attendance'].value,
-                    meal: rsvpForm.elements['attendance'].value === 'attending' ? rsvpForm.elements['meal'].value : 'N/A',
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                };
-
-                db.collection('rsvps').doc(contact).set(formData, { merge: true })
-                    .then(() => {
+                const form = e.target;
+                const data = new FormData(form);
+                const action = form.action;
+                
+                fetch(action, {
+                    method: 'POST',
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                }).then(response => {
+                    if (response.ok) {
                         alert('참석 의사를 전달해주셔서 감사합니다.');
                         rsvpModal.style.display = 'none';
-                        rsvpForm.reset();
+                        form.reset();
                         mealFieldset.style.display = 'block';
-                    })
-                    .catch(error => {
-                        console.error("Error writing document: ", error);
-                        alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
-                    });
+                    } else {
+                        response.json().then(data => {
+                            if (Object.hasOwn(data, 'errors')) {
+                                alert(data["errors"].map(error => error["message"]).join(", "));
+                            } else {
+                                alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+                            }
+                        });
+                    }
+                }).catch(error => {
+                    alert('전송 중 오류가 발생했습니다. 다시 시도해주세요.');
+                });
             });
         }
     }

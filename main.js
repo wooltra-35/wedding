@@ -307,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mealFieldset = document.getElementById('meal-fieldset');
 
         if (openRsvpBtn) {
-            openRsvpBtn.onclick = () => rsvpModal.style.display = 'block';
+            openRsvpBtn.onclick = () => rsvpModal.style.display = 'flex';
         }
         if (closeBtn) {
             closeBtn.onclick = () => rsvpModal.style.display = 'none';

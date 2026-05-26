@@ -20,23 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- Navigation Buttons (v5.0 - Geocoder-based coordinate retrieval) --- //
+    // --- Navigation Buttons (v6.0 - Address-based coordinate retrieval for accuracy) --- //
     const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
     const tmapBtn = document.getElementById('tmap-btn');
-    const destinationName = '서초과학화예비군훈련장 강동송파';
+    const destinationAddress = '서울 서초구 내곡동 31-61';
+    const destinationName = '보넬리가든 (주차장)';
 
-    // Use Kakao Places API to get correct coordinates from keyword
+    // Use Kakao Geocoder API to get correct coordinates from the address
     if (kakaoNaviBtn && window.kakao && window.kakao.maps && window.kakao.maps.services) {
-        const ps = new kakao.maps.services.Places();
+        const geocoder = new kakao.maps.services.Geocoder();
 
         // Disable button until coordinates are fetched
         kakaoNaviBtn.style.pointerEvents = 'none';
         kakaoNaviBtn.style.opacity = '0.7';
 
-        ps.keywordSearch(destinationName, (data, status, pagination) => {
+        geocoder.addressSearch(destinationAddress, (result, status) => {
             if (status === kakao.maps.services.Status.OK) {
-                const destLat = parseFloat(data[0].y);
-                const destLng = parseFloat(data[0].x);
+                const destLat = parseFloat(result[0].y);
+                const destLng = parseFloat(result[0].x);
 
                 kakaoNaviBtn.addEventListener('click', (e) => {
                     e.preventDefault();
@@ -60,8 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 kakaoNaviBtn.style.opacity = '1';
 
             } else {
-                console.error('Keyword search failed:', status);
-                // Fallback to name search if coordinate retrieval fails
+                console.error('Geocoder failed for navigation address:', status);
+                // Fallback to name search if geocoding fails
                 kakaoNaviBtn.addEventListener('click', (e) => {
                     e.preventDefault();
                     window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
@@ -81,11 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (tmapBtn) {
         tmapBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            const tmapDestinationName = '보넬리가든주차장'; // Tmap works better with no spaces
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if(isMobile) {
-                window.open(`tmap://search?name=${encodeURIComponent(destinationName)}`);
+                window.open(`tmap://search?name=${encodeURIComponent(tmapDestinationName)}`);
             } else {
-                window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destinationName)}`);
+                window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(tmapDestinationName)}`);
             }
         });
     }

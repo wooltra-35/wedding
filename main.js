@@ -298,23 +298,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const kakaoShareBtn = document.getElementById('share-kakao');
     if (kakaoShareBtn && window.Kakao) {
         kakaoShareBtn.addEventListener('click', () => {
+            const currentUrl = 'https://wedding-p2c.pages.dev';
             Kakao.Share.sendDefault({
                 objectType: 'feed',
                 content: {
                     title: '상모와 유나의 결혼식에 초대합니다',
                     description: '2026년 8월 30일, 저희의 첫걸음을 함께 축복해주세요.',
-                    imageUrl: 'https://wedding.fromy.kr/images/thumnail.png',
+                    imageUrl: `${currentUrl}/images/thumbnail.png`,
                     link: {
-                        mobileWebUrl: 'https://wedding.fromy.kr',
-                        webUrl: 'https://wedding.fromy.kr'
+                        mobileWebUrl: currentUrl,
+                        webUrl: currentUrl
                     }
                 },
                 buttons: [
                     {
                         title: '청첩장 보기',
                         link: {
-                            mobileWebUrl: 'https://wedding.fromy.kr',
-                            webUrl: 'https://wedding.fromy.kr'
+                            mobileWebUrl: currentUrl,
+                            webUrl: currentUrl
                         }
                     }
                 ]
@@ -325,7 +326,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyLinkBtn = document.getElementById('copy-link');
     if (copyLinkBtn) {
         copyLinkBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText('https://wedding.fromy.kr').then(() => {
+            const currentUrl = 'https://wedding-p2c.pages.dev';
+            navigator.clipboard.writeText(currentUrl).then(() => {
                 alert('청첩장 링크가 복사되었습니다.');
             });
         });

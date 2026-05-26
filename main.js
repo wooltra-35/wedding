@@ -20,45 +20,76 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- Navigation Buttons (v4 - Updated Coordinates) --- //
+    // --- Navigation Buttons (v5.0 - Geocoder-based coordinate retrieval) --- //
     const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
-    if (kakaoNaviBtn) {
-      kakaoNaviBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const destination = '서초과학화예비군훈련장 강동송파주차장';
-        const parkingLotLat = 37.447334;
-        const parkingLotLng = 127.070081;
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const tmapBtn = document.getElementById('tmap-btn');
+    const destinationName = '서초과학화예비군훈련장 강동송파';
 
-        if (isMobile) {
-            if (window.Kakao && window.Kakao.isInitialized()) {
-                Kakao.Navi.start({
-                    name: destination,
-                    x: parkingLotLng,
-                    y: parkingLotLat,
-                    coordType: 'wgs84'
+    // Use Kakao Places API to get correct coordinates from keyword
+    if (kakaoNaviBtn && window.kakao && window.kakao.maps && window.kakao.maps.services) {
+        const ps = new kakao.maps.services.Places();
+
+        // Disable button until coordinates are fetched
+        kakaoNaviBtn.style.pointerEvents = 'none';
+        kakaoNaviBtn.style.opacity = '0.7';
+
+        ps.keywordSearch(destinationName, (data, status, pagination) => {
+            if (status === kakao.maps.services.Status.OK) {
+                const destLat = parseFloat(data[0].y);
+                const destLng = parseFloat(data[0].x);
+
+                kakaoNaviBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+                    if (isMobile) {
+                        if (window.Kakao && window.Kakao.isInitialized()) {
+                            Kakao.Navi.start({
+                                name: destinationName,
+                                x: destLng,
+                                y: destLat,
+                                coordType: 'wgs84'
+                            });
+                        }
+                    } else {
+                        window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destinationName)},${destLat},${destLng}`);
+                    }
                 });
+                // Re-enable the button
+                kakaoNaviBtn.style.pointerEvents = 'auto';
+                kakaoNaviBtn.style.opacity = '1';
+
+            } else {
+                console.error('Keyword search failed:', status);
+                // Fallback to name search if coordinate retrieval fails
+                kakaoNaviBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
+                });
+                kakaoNaviBtn.style.pointerEvents = 'auto';
+                kakaoNaviBtn.style.opacity = '1';
             }
-        } else {
-            window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destination)},${parkingLotLat},${parkingLotLng}`);
-        }
-      });
+        });
+    } else if (kakaoNaviBtn) {
+         // Fallback if Kakao SDK is not available
+         kakaoNaviBtn.addEventListener('click', (e) => {
+             e.preventDefault();
+             window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
+         });
     }
 
-    const tmapBtn = document.getElementById('tmap-btn');
     if (tmapBtn) {
         tmapBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const destination = '서초과학화예비군훈련장 강동송파';
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if(isMobile) {
-                // T-map은 목적지 이름으로 검색하는 것이 가장 정확합니다.
-                window.open(`tmap://search?name=${encodeURIComponent(destination)}`);
+                window.open(`tmap://search?name=${encodeURIComponent(destinationName)}`);
             } else {
-                window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destination)}`);
+                window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destinationName)}`);
             }
         });
     }
+
 
     // --- NEW: Gallery Grid & Lightbox Logic --- //
     const gridItems = document.querySelectorAll('.grid-item');
@@ -270,18 +301,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 content: {
                     title: '상모와 유나의 결혼식에 초대합니다',
                     description: '2026년 8월 30일, 저희의 첫걸음을 함께 축복해주세요.',
-                    imageUrl: 'https://wooltra-35.github.io/wedding/images/thumnail.png',
+                    imageUrl: 'https://wedding.fromy.kr/images/thumnail.png',
                     link: {
-                        mobileWebUrl: 'https://wooltra-35.github.io/wedding/',
-                        webUrl: 'https://wooltra-35.github.io/wedding/'
+                        mobileWebUrl: 'https://wedding.fromy.kr',
+                        webUrl: 'https://wedding.fromy.kr'
                     }
                 },
                 buttons: [
                     {
                         title: '청첩장 보기',
                         link: {
-                            mobileWebUrl: 'https://wooltra-35.github.io/wedding/',
-                            webUrl: 'https://wooltra-35.github.io/wedding/'
+                            mobileWebUrl: 'https://wedding.fromy.kr',
+                            webUrl: 'https://wedding.fromy.kr'
                         }
                     }
                 ]
@@ -292,7 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const copyLinkBtn = document.getElementById('copy-link');
     if (copyLinkBtn) {
         copyLinkBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(window.location.href).then(() => {
+            navigator.clipboard.writeText('https://wedding.fromy.kr').then(() => {
                 alert('청첩장 링크가 복사되었습니다.');
             });
         });

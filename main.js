@@ -20,55 +20,41 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- Navigation Buttons --- //
+    // --- Navigation Buttons (v6.1 - Keyword-based search for reliability) --- //
     const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
     const tmapBtn = document.getElementById('tmap-btn');
-    const destinationAddress = '서울 서초구 내곡동 31-61';
-    const destinationName = '보넬리가든 (주차장)';
+    const destinationName = '서초과학화예비군훈련장 강동송파';
 
-    if (kakaoNaviBtn && window.kakao && window.kakao.maps && window.kakao.maps.services) {
-        const geocoder = new kakao.maps.services.Geocoder();
-        kakaoNaviBtn.style.pointerEvents = 'none';
-        kakaoNaviBtn.style.opacity = '0.7';
-
-        geocoder.addressSearch(destinationAddress, (result, status) => {
-            if (status === kakao.maps.services.Status.OK) {
-                const destLat = parseFloat(result[0].y);
-                const destLng = parseFloat(result[0].x);
-
-                kakaoNaviBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                        Kakao.Navi.start({ name: destinationName, x: destLng, y: destLat, coordType: 'wgs84' });
-                    } else {
-                        window.open(`https://map.kakao.com/link/to/${encodeURIComponent(destinationName)},${destLat},${destLng}`);
-                    }
+    if (kakaoNaviBtn) {
+        kakaoNaviBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            // 카카오내비는 목적지 좌표가 정확해야 하므로, 검색 결과를 바탕으로 안내합니다.
+            // 다만, 사용자가 직접 검색하는 것과 같은 경험을 주기 위해 장소 이름으로 검색을 유도합니다.
+            if (window.Kakao && Kakao.isInitialized()) {
+                 Kakao.Navi.start({
+                    name: destinationName,
+                    x: 127.065846, // 서울 서초구 내곡동 374-6 (훈련장 입구)
+                    y: 37.452606,
+                    coordType: 'wgs84'
                 });
-                kakaoNaviBtn.style.pointerEvents = 'auto';
-                kakaoNaviBtn.style.opacity = '1';
-
             } else {
-                console.error('Geocoder failed:', status);
-                kakaoNaviBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
-                });
-                kakaoNaviBtn.style.pointerEvents = 'auto';
-                kakaoNaviBtn.style.opacity = '1';
+                // 카카오맵 웹으로 대체
+                window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
             }
         });
-    } else if (kakaoNaviBtn) {
-         kakaoNaviBtn.addEventListener('click', (e) => {
-             e.preventDefault();
-             window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
-         });
     }
 
     if (tmapBtn) {
         tmapBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const tmapDestName = '보넬리가든주차장';
-            window.open(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ? `tmap://search?name=${encodeURIComponent(tmapDestName)}` : `https://s.tmap.co.kr/search?name=${encodeURIComponent(tmapDestName)}`);
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                // T맵 앱으로 직접 검색 실행
+                window.open(`tmap://search?name=${encodeURIComponent(destinationName)}`);
+            } else {
+                // T맵 웹으로 대체
+                window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destinationName)}`);
+            }
         });
     }
 

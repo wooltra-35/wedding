@@ -273,23 +273,30 @@ input[type="text"], input[type="password"], input[type="tel"] { width: 100%; pad
 #share-kakao { background-color: #FEE500; color: #191919; }
 #copy-link { background-color: var(--primary-color); color: white; }
 
-/* === Gallery Grid & Lightbox Styles === */
-.photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.grid-item { 
-    overflow: hidden; 
-    cursor: pointer; 
-    aspect-ratio: 1 / 1; 
-    border-radius: 8px; 
-    transition: transform 0.3s ease; 
-    background-color: var(--footer-bg-color);
+/* === Gallery Grid & Lightbox Styles (Masonry) === */
+.photo-grid {
+    margin: 0 auto;
 }
-.grid-item img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: contain; /* Changed from cover to contain */
-    transition: opacity 0.3s ease; 
+
+.grid-item {
+    width: 32%; /* for 3 columns with gutters */
+    margin-bottom: 10px; /* vertical space */
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 8px;
 }
-.grid-item:hover img { opacity: 0.8; }
+
+.grid-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.3s ease;
+}
+
+.grid-item:hover img { 
+    opacity: 0.8; 
+}
+
 .lightbox { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; }
 .lightbox-content { max-width: 90%; max-height: 80%; display: block; margin: auto; }
 .close-lightbox, .prev-slide, .next-slide { cursor: pointer; position: absolute; color: white; font-size: 3rem; user-select: none; transition: 0.2s ease; }

@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- Navigation Buttons (v6.1 - Keyword-based search for reliability) --- //
+    // --- Navigation Buttons (v6.3 - User-suggested direct search) --- //
     const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
     const tmapBtn = document.getElementById('tmap-btn');
     const destinationName = '서초과학화예비군훈련장 강동송파';
@@ -28,17 +28,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (kakaoNaviBtn) {
         kakaoNaviBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // 카카오내비는 목적지 좌표가 정확해야 하므로, 검색 결과를 바탕으로 안내합니다.
-            // 다만, 사용자가 직접 검색하는 것과 같은 경험을 주기 위해 장소 이름으로 검색을 유도합니다.
-            if (window.Kakao && Kakao.isInitialized()) {
-                 Kakao.Navi.start({
-                    name: destinationName,
-                    x: 127.065846, // 서울 서초구 내곡동 374-6 (훈련장 입구)
-                    y: 37.452606,
-                    coordType: 'wgs84'
-                });
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                // As requested by the user, this directly opens the Kakao Navi app
+                // and pre-fills the search bar. This is the most reliable method.
+                window.open(`kakaonavi-sdk://search?q=${encodeURIComponent(destinationName)}`);
             } else {
-                // 카카오맵 웹으로 대체
+                // On desktop, open the Kakao Map website as a fallback.
                 window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
             }
         });
@@ -49,10 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
             if (isMobile) {
-                // T맵 앱으로 직접 검색 실행
+                // T-map app search execution
                 window.open(`tmap://search?name=${encodeURIComponent(destinationName)}`);
             } else {
-                // T맵 웹으로 대체
+                // Fallback to T-map web
                 window.open(`https://s.tmap.co.kr/search?name=${encodeURIComponent(destinationName)}`);
             }
         });

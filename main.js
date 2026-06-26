@@ -20,24 +20,34 @@ document.addEventListener('DOMContentLoaded', () => {
         window.Kakao.init('4735caea5648d5df0a21861927141a31');
     }
 
-    // --- Navigation Buttons (v6.3 - User-suggested direct search) --- //
+    // --- Navigation Buttons (v7.0 - Final & Robust Kakao Navi Integration) --- //
     const kakaoNaviBtn = document.getElementById('kakaonavi-btn');
     const tmapBtn = document.getElementById('tmap-btn');
     const destinationName = '서초과학화예비군훈련장 강동송파';
 
-    if (kakaoNaviBtn) {
+    if (kakaoNaviBtn && window.Kakao && window.Kakao.maps && window.Kakao.maps.services) {
         kakaoNaviBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-            if (isMobile) {
-                // As requested by the user, this directly opens the Kakao Navi app
-                // and pre-fills the search bar. This is the most reliable method.
-                window.open(`kakaonavi-sdk://search?q=${encodeURIComponent(destinationName)}`);
-            } else {
-                // On desktop, open the Kakao Map website as a fallback.
-                window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
-            }
+            
+            // Use Kakao's official Places search API to get the most accurate coordinates
+            const ps = new kakao.maps.services.Places();
+            ps.keywordSearch(destinationName, (data, status) => {
+                if (status === kakao.maps.services.Status.OK && data.length > 0) {
+                    const place = data[0];
+                    // Use the official Kakao.Navi.start() function for reliable navigation
+                    Kakao.Navi.start({
+                        name: destinationName,
+                        x: Number(place.x),
+                        y: Number(place.y),
+                        coordType: 'wgs84' // Standard coordinate system
+                    });
+                } else {
+                    // Fallback if the search fails for any reason
+                    alert('목적지 검색에 실패했습니다. 카카오내비 앱에서 직접 검색해주세요.');
+                    // As a last resort, open the search link in Kakao Map website
+                    window.open(`https://map.kakao.com/link/search/${encodeURIComponent(destinationName)}`);
+                }
+            });
         });
     }
 

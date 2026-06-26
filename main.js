@@ -78,8 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const msnry = new Masonry(grid, {
             itemSelector: '.grid-item',
             columnWidth: '.grid-item',
-            percentPosition: true,
-            gutter: 10
+            gutter: '.gutter-sizer',
+            percentPosition: true
         });
 
         imagesLoaded(grid).on('progress', function() {

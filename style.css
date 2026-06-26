@@ -274,29 +274,22 @@ input[type="text"], input[type="password"], input[type="tel"] { width: 100%; pad
 #copy-link { background-color: var(--primary-color); color: white; }
 
 /* === Gallery Grid & Lightbox Styles (Masonry) === */
-.photo-grid {
-    margin: 0 auto;
-}
-
+.photo-grid { margin: 0 auto; }
+.gutter-sizer { width: 2%; } /* Gutter width as a percentage */
 .grid-item {
-    width: 32%; /* for 3 columns with gutters */
-    margin-bottom: 10px; /* vertical space */
+    width: 32%; /* (100% - 2*2%) / 3 */
+    margin-bottom: 10px;
     cursor: pointer;
     overflow: hidden;
     border-radius: 8px;
 }
-
 .grid-item img {
     width: 100%;
     height: auto;
     display: block;
     transition: opacity 0.3s ease;
 }
-
-.grid-item:hover img { 
-    opacity: 0.8; 
-}
-
+.grid-item:hover img { opacity: 0.8; }
 .lightbox { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.9); justify-content: center; align-items: center; }
 .lightbox-content { max-width: 90%; max-height: 80%; display: block; margin: auto; }
 .close-lightbox, .prev-slide, .next-slide { cursor: pointer; position: absolute; color: white; font-size: 3rem; user-select: none; transition: 0.2s ease; }

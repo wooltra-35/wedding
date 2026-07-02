@@ -451,8 +451,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const particleSettings = {
             count: 20,
-            colors: ['rgba(255, 182, 193, 0.7)', 'rgba(248, 200, 220, 0.7)', 'rgba(255, 218, 185, 0.7)', 'rgba(254, 250, 224, 0.8)'],
-            minSize: 5, maxSize: 12, minSpeedY: 0.5, maxSpeedY: 2, minSpeedX: -0.5, maxSpeedX: 0.5,
+            colors: ['rgba(255, 105, 180, 0.7)', 'rgba(255, 182, 193, 0.7)', 'rgba(220, 20, 60, 0.7)', 'rgba(255, 192, 203, 0.8)'],
+            minSize: 8, maxSize: 15, minSpeedY: 0.5, maxSpeedY: 2, minSpeedX: -0.5, maxSpeedX: 0.5,
         }
 
         class Particle {
@@ -460,7 +460,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.x = Math.random() * width;
                 this.y = Math.random() * height * 2 - height;
                 this.w = Math.random() * (particleSettings.maxSize - particleSettings.minSize) + particleSettings.minSize;
-                this.h = this.w * 0.8;
+                this.h = this.w;
                 this.color = particleSettings.colors[Math.floor(Math.random() * particleSettings.colors.length)];
                 this.speedY = Math.random() * (particleSettings.maxSpeedY - particleSettings.minSpeedY) + particleSettings.minSpeedY;
                 this.speedX = Math.random() * (particleSettings.maxSpeedX - particleSettings.minSpeedX) + particleSettings.minSpeedX;
@@ -486,9 +486,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const scaleX = Math.sin(this.oscillation);
                 ctx.scale(scaleX, 1);
                 ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.ellipse(0, 0, this.w, this.h, 0, 0, 2 * Math.PI);
-                ctx.fill();
+                ctx.font = `${this.w * 1.5}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('♥', 0, 0);
                 ctx.restore();
             }
         }
